@@ -38,7 +38,6 @@ int ** readFile(char const * fileName)
         }
         row++;
     }
-    printf("%d", arr[0][0]);
     /* may check feof here to make a difference between eof and io failure -- network
        timeout for instance */
 
