@@ -4,7 +4,7 @@
 
 typedef enum {false, true} bool;
 
-int readFile(char const * fileName)
+int ** readFile(char const * fileName)
 {
     FILE* file = fopen(fileName, "r"); /* should check the result */
     char line[256];
@@ -12,7 +12,7 @@ int readFile(char const * fileName)
     bool first = true;
     int **arr = NULL;
 
-    int row = 0;
+    int row = -1;
 
     while (fgets(line, sizeof(line), file)) {
         /* note that fgets don't strip the terminating \n, checking its
@@ -24,13 +24,10 @@ int readFile(char const * fileName)
             int x = atoi(pch);
 
             if(first){
-                arr = (int **)malloc(x++ * sizeof(int *)); 
+                arr = (int **)malloc(x * sizeof(int *)); 
                 for (int i=0; i<x; i++) {
                     arr[i] = (int *)malloc(3 * sizeof(int)); 
                 }
-                arr[row][0] = x;
-                arr[row][1] = 3;
-                arr[row][2] = 0;
                 first = false;
             }
             else{
