@@ -9,12 +9,12 @@ int diviserReigner(int skyline1[][2],int skyline2[][2], int sizeSkyline1, int si
     int indexSkyline1 = 0;
     int indexSkyline2 = 0;
     for(int i =0; i < sizeSkyline; i++){
-        if(sizeSkyline1 != indexSkyline1 && skyline1[indexSkyline1][0] <= skyline2[indexSkyline2][0]){
+        if(sizeSkyline1 != indexSkyline1 && (sizeSkyline2 == indexSkyline2 || skyline1[indexSkyline1][0] <= skyline2[indexSkyline2][0])){
             h1[0] = skyline1[indexSkyline1][0];
             h1[1] = skyline1[indexSkyline1][1];
             result[i][0] = h1[0];
             indexSkyline1++;
-        }else if(sizeSkyline2 != indexSkyline2 && skyline1[indexSkyline1][0] > skyline2[indexSkyline2][0]){
+        }else if(sizeSkyline2 != indexSkyline2 && (sizeSkyline1 == indexSkyline1 || skyline1[indexSkyline1][0] > skyline2[indexSkyline2][0])){
             h2[0] = skyline2[indexSkyline2][0];
             h2[1] = skyline2[indexSkyline2][1];
             result[i][0] = h2[0];
