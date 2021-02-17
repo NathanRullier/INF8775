@@ -10,13 +10,22 @@
 
 typedef enum {false, true} bool;
 
-int ** readFile(char const * fileName)
+struct CriticalPoints
+{
+    int size;
+    int ** points;
+};
+
+
+struct CriticalPoints readFile(char const * fileName)
 {
     FILE* file = fopen(fileName, "r"); 
     char line[256];
 
     bool first = true;
     int **arr = NULL;
+
+    struct CriticalPoints cp;
 
     int row = -1;
 
@@ -32,6 +41,7 @@ int ** readFile(char const * fileName)
             if(first)
             {
                 arr = (int **)malloc(x * sizeof(int *)); 
+                cp.size = x;
                 for (int i=0; i<x; i++)
                 {
                     arr[i] = (int *)malloc(3 * sizeof(int)); 
@@ -52,32 +62,37 @@ int ** readFile(char const * fileName)
 
     fclose(file);
 
-    return arr;
+    cp.points = arr;
+    return cp;
 }
 
-int ** extractCritPoint(int ** houses, int size)
+struct CriticalPoints extractCritPoint(struct CriticalPoints houses)
 {
-    int ** arr = (int **)malloc(size * 2 * sizeof(int *)); 
-    for (int i = 0; i < size * 2; i++)
+    int ** arr = (int **)malloc(houses.size * 2 * sizeof(int *)); 
+    for (int i = 0; i < houses.size * 2; i++)
     {
         arr[i] = (int *)malloc(2 * sizeof(int)); 
     }
 
     int row = 0;
-    for(int i = 0; i < size; i++)
+    for(int i = 0; i < houses.size; i++)
     {
-        arr[row][X] = houses[i][L];
-        arr[row][Y] = houses[i][H];
-        arr[++row][X] = houses[i][R];
+        arr[row][X] = houses.points[i][L];
+        arr[row][Y] = houses.points[i][H];
+        arr[++row][X] = houses.points[i][R];
         arr[row++][Y] = 0;
     }
 
-    return arr;
+    struct CriticalPoints cp;
+    cp.size = row;
+    cp.points = arr;
+
+    return cp;
 }
 
-int ** filter(int ** solution, int size)
+struct CriticalPoints filter(int ** solution, int size)
 {
-    int ** arr = (int **)malloc(size * 2 * sizeof(int *)); 
+    int ** arr = (int **)malloc(size * sizeof(int *)); 
     
     int* lastSolution = solution[0];
 
@@ -89,6 +104,7 @@ int ** filter(int ** solution, int size)
         if(solution[i][X] != lastSolution[X] && solution[i][Y] != lastSolution[Y])
         {
             arr[row++] = solution[i];
+            lastSolution = solution[i];
         }
         else
         {
@@ -96,12 +112,9 @@ int ** filter(int ** solution, int size)
         }
     }
 
-    int ** finalArr = (int **)malloc(row * sizeof(int *)); 
-    finalArr[0] = (int *)malloc(2 * sizeof(int)); 
-    finalArr[0][0] = row; 
-    finalArr[0][1] = row; 
+    int ** finalArr = (int **)malloc(--row * sizeof(int *));
 
-    for (int i = 1; i < row; i++)
+    for (int i = 0; i < row; i++)
     {
         finalArr[i] = arr[i]; 
     }
@@ -109,7 +122,11 @@ int ** filter(int ** solution, int size)
     free(arr);
     free(solution);
 
-    return finalArr;
+    struct CriticalPoints cp;
+    cp.size = row;
+    cp.points = finalArr;
+
+    return cp;
 }
 
 void swap(int ** a, int ** b)  

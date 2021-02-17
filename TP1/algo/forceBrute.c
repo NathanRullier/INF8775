@@ -1,25 +1,23 @@
 #include <stdio.h>
 #include "baseOps.h"
 
-#define SIZE 500000
-
-int ** forceBrute(int ** houses, int ** critPoints)
+struct CriticalPoints forceBrute(struct CriticalPoints houses, struct CriticalPoints critPoints)
 {
-    int ** arr = (int **)malloc(SIZE * 2 * sizeof(int *)); 
-    for (int i = 0; i < SIZE * 2; i++)
+    int ** arr = (int **)malloc(critPoints.size * sizeof(int *)); 
+    for (int i = 0; i < critPoints.size; i++)
     {
         arr[i] = (int *)malloc(2 * sizeof(int)); 
     }
 
     int row = 0;
-    for(int i = 0; i < SIZE * 2; ++i)
+    for(int i = 0; i < critPoints.size; ++i)
     {
-        int * critPoint = critPoints[i];
+        int * critPoint = critPoints.points[i];
         int height = critPoint[Y];
 
-        for(int j = 0; j < SIZE; ++j)
+        for(int j = 0; j < houses.size; ++j)
         {
-            int * house = houses[j];
+            int * house = houses.points[j];
 
             if(house[L] < critPoint[X] && critPoint[X] < house[R] && height < house[H])
             {
@@ -31,49 +29,48 @@ int ** forceBrute(int ** houses, int ** critPoints)
         arr[row++][Y] = height;
     }
 
-    quickSort(arr, 0, (SIZE * 2) - 1);
+    quickSort(arr, 0, critPoints.size - 1);
 
-    return filter(arr, SIZE);
+    return filter(arr, critPoints.size);
 }
 
 int main(void)
 {
-    int ** houses = readFile("../data/N500000_0");
+    struct CriticalPoints houses = readFile("../data/N5000_0");
 
-    int ** critPoints = extractCritPoint(houses, SIZE);
+    struct CriticalPoints critPoints = extractCritPoint(houses);
 
-    int ** solution = forceBrute(houses, critPoints);
+    struct CriticalPoints solution = forceBrute(houses, critPoints);
 
-    int max = solution[1][0];
-    printf("%d\n", solution[0][0]);
-    for (int i = 2; i < solution[0][0]; i++)
+    int max = solution.points[0][0];
+    printf("%d\n", solution.size);
+    for (int i = 2; i < solution.size; i++)
     {
-        if(solution[i][0] < max)
+        if(solution.points[i][0] < max)
         {
-            printf("%d\n", solution[i][0]);
+            printf("%d\n", solution.points[i][0]);
             break;
         }
-        max = solution[i][0];
+        max = solution.points[i][0];
     }
 
-    for (int i = 0; i < SIZE; i++)
+    for (int i = 0; i < houses.size; i++)
     {
-        free(houses[i]);
+        free(houses.points[i]);
     }
-    free(houses);
+    free(houses.points);
 
-    for (int i = 0; i < SIZE  * 2; i++)
+    for (int i = 0; i < critPoints.size; i++)
     {
-        free(critPoints[i]);
+        free(critPoints.points[i]);
     }
-    free(critPoints);
+    free(critPoints.points);
 
-    int solSize = solution[0][0];
-    for (int i = 0; i < solSize; i++)
+    for (int i = 0; i < solution.size; i++)
     {
-        free(solution[i]);
+        free(solution.points[i]);
     }
-    free(solution);
+    free(solution.points);
 
     return 0;
 }
