@@ -90,7 +90,7 @@ struct CriticalPoints diviserReigner(struct CriticalPoints critPoints)
             }
             if(r == right.low + right.size){r--; endR = true;};
         }
-        else if(l < left.low + left.size)
+        else 
         {
             h1 = left.points[l][Y];
             hCur = h1;
@@ -131,7 +131,7 @@ struct CriticalPoints diviserReigner(struct CriticalPoints critPoints)
 
 int main(void)
 {
-    struct CriticalPoints houses = readFile("../data/N10000_0");
+    struct CriticalPoints houses = readFile("../data/N1000_0");
 
     struct CriticalPoints critPoints = extractCritPoint(houses);
 
