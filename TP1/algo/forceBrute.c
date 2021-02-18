@@ -36,23 +36,25 @@ struct CriticalPoints forceBrute(struct CriticalPoints houses, struct CriticalPo
 
 int main(void)
 {
-    struct CriticalPoints houses = readFile("../data/N5000_0");
+    struct CriticalPoints houses = readFile("../data/N10000_0");
 
     struct CriticalPoints critPoints = extractCritPoint(houses);
 
     struct CriticalPoints solution = forceBrute(houses, critPoints);
 
-    int max = solution.points[0][0];
+    int max = solution.points[0][X];
     printf("%d\n", solution.size);
-    for (int i = 2; i < solution.size; i++)
+    int f = 0;
+    for (int i = 0; i < solution.size; i++)
     {
-        if(solution.points[i][0] < max)
+        // printf("x = %d, y = %d\n", solution.points[i][X], solution.points[i][Y]);
+        if(solution.points[i][X] < max)
         {
-            printf("%d\n", solution.points[i][0]);
-            break;
+            f++;
         }
-        max = solution.points[i][0];
+        max = solution.points[i][X];
     }
+    printf("%d\n", f);
 
     for (int i = 0; i < houses.size; i++)
     {

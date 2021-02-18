@@ -13,6 +13,7 @@ typedef enum {false, true} bool;
 struct CriticalPoints
 {
     int size;
+    int low;
     int ** points;
 };
 
@@ -57,12 +58,11 @@ struct CriticalPoints readFile(char const * fileName)
         }
         row++;
     }
-    /* may check feof here to make a difference between eof and io failure -- network
-       timeout for instance */
 
     fclose(file);
 
     cp.points = arr;
+    // cp.size = 10;
     return cp;
 }
 
@@ -112,7 +112,7 @@ struct CriticalPoints filter(int ** solution, int size)
         }
     }
 
-    int ** finalArr = (int **)malloc(--row * sizeof(int *));
+    int ** finalArr = (int **)malloc(row * sizeof(int *));
 
     for (int i = 0; i < row; i++)
     {

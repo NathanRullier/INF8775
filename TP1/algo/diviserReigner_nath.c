@@ -1,97 +1,169 @@
 #include <stdio.h>
 #include "baseOps.h"
 
-#define SIZE 5000
+int g = 0;
 
-int ** diviserReigner(int ** critPoints, int low, int high)
+struct CriticalPoints diviserReigner(struct CriticalPoints critPoints)
 {
-    int ** left;
-    int ** right;
-
-    if(high - low > 4)
+    if (critPoints.size < 4)
     {
-        left = diviserReigner(critPoints, low, high / 2 - low / 2);
-        right = diviserReigner(critPoints, high / 2 - low / 2 + 1, high);
-    } 
-    else
-    {
-        left = (int **)malloc(2 * sizeof(int *));
-        left[0] = critPoints[low];
-        left[1] = critPoints[low + 1];
-
-        right = (int **)malloc(2 * sizeof(int *));
-        right[0] = critPoints[high - 1];
-        right[1] = critPoints[high];
+        return critPoints;
     }
-    
-    int ** critArrTmp = (int **)malloc((high - low) * sizeof(int *)); 
+    int newSizeL = critPoints.size / 2;
+    int newSizeR = critPoints.size / 2;
+    if(newSizeL % 2 == 1)
+    {
+        newSizeL ++;
+        newSizeR --;
+    }
+
+    struct CriticalPoints left;
+    left.size = newSizeL;
+    left.low = critPoints.low;
+    left.points = critPoints.points;
+
+    struct CriticalPoints right;
+    right.size = newSizeR;
+    right.low = left.low + left.size;
+    right.points = critPoints.points;
+
+    if(critPoints.size > 4)
+    {
+        left = diviserReigner(left);
+        right = diviserReigner(right);
+    }
+    int size = left.size + right.size;
+    int ** critArrTmp = (int **)malloc(size * sizeof(int *));
+
     int h1 = 0;
     int h2 = 0;
-    int hCur;
+    int hCur = 0;
+    int hLast = 0;
 
-    int l = 0;
-    int r = 0;
+    int l = left.low;
+    int r = right.low;
+    int nbCrit = 0;
+    bool endR = false;
+    // printf("l %d\n",left.size);
+    // printf("r %d\n",right.size);
 
-    for(int i = 0; i <= high - low; i++)
+    for(int i = 0; i < size ; i++)
     {
-        if(left[l][X] < right[r][X])
+        if(l < left.low + left.size && left.points[l][X] < right.points[r][X])
         {
-            hCur = left[l++][Y];
-            if(h2 < hCur)
+        // printf("lxy %d %d\n",left.points[l][X],left.points[l][Y]);
+            h1 = left.points[l][Y];
+            hCur = h1;
+            if(h2 >= hCur)
             {
-                h1 = hCur;
+                hCur = h2;
+                if(hCur < hLast)
+                {
+                    left.points[l][Y] = hCur;
+                    critArrTmp[nbCrit++] = left.points[l];
+                }
             }
+            else
+            {
+                critArrTmp[nbCrit++] = left.points[l];
+            }
+
+            l += l == left.low + left.size? 0 : 1;
         }
-        else
+        else if (r < right.low + right.size && !endR)
         {
-            hCur = left[r++][Y];
-            if(h1 < hCur)
+        // printf("rxy %d %d\n",right.points[r][X],right.points[r][Y]);
+            h2 = right.points[r++][Y];
+            hCur = h2;
+            if(h1 >= hCur)
             {
-                h2 = hCur;
+                hCur = h1;
+                if(hCur < hLast)
+                {
+                    right.points[r - 1][Y] = hCur;
+                    critArrTmp[nbCrit++] = right.points[r - 1];
+                }
             }
+            else
+            {
+                critArrTmp[nbCrit++] = right.points[r - 1];
+            }
+            if(r == right.low + right.size){r--; endR = true;};
         }
+        else if(l < left.low + left.size)
+        {
+            h1 = left.points[l][Y];
+            hCur = h1;
+            if(h2 >= hCur)
+            {
+                hCur = h2;
+                if(hCur < hLast)
+                {
+                    left.points[l][Y] = hCur;
+                    critArrTmp[nbCrit++] = left.points[l];
+                }
+            }
+            else
+            {
+                critArrTmp[nbCrit++] = left.points[l];
+            }
+
+            l += l == left.low + left.size? 0 : 1;
+        }
+        hLast = hCur;
+   }
+    
+    int ** critArr = (int **)malloc(nbCrit * sizeof(int *));
+
+    for (int i = 0; i < nbCrit; i++)
+    {
+        critArr[i] = critArrTmp[i]; 
     }
+    free(critArrTmp);
+
+    struct CriticalPoints cp;
+    cp.size = nbCrit;
+    cp.low = 0;
+    cp.points = critArr;
+    return cp;
 }
 
 
 int main(void)
 {
-    int ** houses = readFile("../data/N5000_4");
+    struct CriticalPoints houses = readFile("../data/N10000_0");
 
-    int ** critPoints = extractCritPoint(houses, SIZE);
+    struct CriticalPoints critPoints = extractCritPoint(houses);
 
-    int ** solution = diviserReigner(critPoints, 0, SIZE  * 2 - 2);
+    struct CriticalPoints solution = diviserReigner(critPoints);
 
-    int max = solution[1][0];
-    printf("%d\n", solution[0][0]);
-    for (int i = 2; i < solution[0][0]; i++)
+    int max = solution.points[0][X];
+    printf("%d\n", solution.size);
+    int f = 0;
+    for (int i = 0; i < solution.size; i++)
     {
-        if(solution[i][0] < max)
+        // printf("x = %d, y = %d\n", solution.points[i][X], solution.points[i][Y]);
+        if(solution.points[i][X] < max)
         {
-            printf("%d\n", solution[i][0]);
-            break;
+            f++;
         }
-        max = solution[i][0];
+        max = solution.points[i][X];
     }
+    printf("%d\n", f);
 
-    for (int i = 0; i < SIZE; i++)
+    for (int i = 0; i < houses.size; i++)
     {
-        free(houses[i]);
+        free(houses.points[i]);
     }
-    free(houses);
+    free(houses.points);
 
-    for (int i = 0; i < SIZE  * 2; i++)
+    for (int i = 0; i < critPoints.size; i++)
     {
-        free(critPoints[i]);
+        free(critPoints.points[i]);
     }
-    free(critPoints);
+    free(critPoints.points);
 
-    int solSize = solution[0][0];
-    for (int i = 0; i < solSize; i++)
-    {
-        free(solution[i]);
-    }
-    free(solution);
+    free(solution.points);
 
     return 0;
 }
