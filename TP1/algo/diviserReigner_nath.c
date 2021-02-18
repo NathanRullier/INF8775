@@ -1,14 +1,13 @@
 #include <stdio.h>
 #include "baseOps.h"
 
-int g = 0;
-
 struct CriticalPoints diviserReigner(struct CriticalPoints critPoints)
 {
     if (critPoints.size < 4)
     {
         return critPoints;
     }
+
     int newSizeL = critPoints.size / 2;
     int newSizeR = critPoints.size / 2;
     if(newSizeL % 2 == 1)
@@ -32,6 +31,7 @@ struct CriticalPoints diviserReigner(struct CriticalPoints critPoints)
         left = diviserReigner(left);
         right = diviserReigner(right);
     }
+
     int size = left.size + right.size;
     int ** critArrTmp = (int **)malloc(size * sizeof(int *));
 
@@ -43,15 +43,12 @@ struct CriticalPoints diviserReigner(struct CriticalPoints critPoints)
     int l = left.low;
     int r = right.low;
     int nbCrit = 0;
-    bool endR = false;
-    // printf("l %d\n",left.size);
-    // printf("r %d\n",right.size);
+    bool lEnd = false;
 
     for(int i = 0; i < size ; i++)
     {
-        if(l < left.low + left.size && left.points[l][X] < right.points[r][X])
+        if(!lEnd && (r >= right.low + right.size || left.points[l][X] < right.points[r][X]))
         {
-        // printf("lxy %d %d\n",left.points[l][X],left.points[l][Y]);
             h1 = left.points[l][Y];
             hCur = h1;
             if(h2 >= hCur)
@@ -67,62 +64,55 @@ struct CriticalPoints diviserReigner(struct CriticalPoints critPoints)
             {
                 critArrTmp[nbCrit++] = left.points[l];
             }
-
-            l += l == left.low + left.size? 0 : 1;
+            l++;
+            if(l == left.low + left.size){l--; lEnd = true;}
         }
-        else if (r < right.low + right.size && !endR)
+        else
         {
-        // printf("rxy %d %d\n",right.points[r][X],right.points[r][Y]);
-            h2 = right.points[r++][Y];
+            h2 = right.points[r][Y];
             hCur = h2;
             if(h1 >= hCur)
             {
                 hCur = h1;
+                if(left.points[l][X] == right.points[r][X])
+                {
+                    hCur = left.points[l][Y] > right.points[r][Y] ? left.points[l][Y] : right.points[r][Y];
+                }
                 if(hCur < hLast)
                 {
-                    right.points[r - 1][Y] = hCur;
-                    critArrTmp[nbCrit++] = right.points[r - 1];
+                    right.points[r][Y] = hCur;
+                    critArrTmp[nbCrit++] = right.points[r];
                 }
             }
             else
             {
-                critArrTmp[nbCrit++] = right.points[r - 1];
-            }
-            if(r == right.low + right.size){r--; endR = true;};
-        }
-        else 
-        {
-            h1 = left.points[l][Y];
-            hCur = h1;
-            if(h2 >= hCur)
-            {
-                hCur = h2;
-                if(hCur < hLast)
+                if(left.points[l][X] == right.points[r][X])
                 {
-                    left.points[l][Y] = hCur;
-                    critArrTmp[nbCrit++] = left.points[l];
+                    hCur = left.points[l][Y] > right.points[r][Y] ? left.points[l][Y] : right.points[r][Y];
                 }
+                critArrTmp[nbCrit] = right.points[r];
+                critArrTmp[nbCrit++][Y] = hCur;
             }
-            else
-            {
-                critArrTmp[nbCrit++] = left.points[l];
-            }
-
-            l += l == left.low + left.size? 0 : 1;
+            r++;
         }
         hLast = hCur;
    }
     
     int ** critArr = (int **)malloc(nbCrit * sizeof(int *));
-
-    for (int i = 0; i < nbCrit; i++)
+    critArr[0] = critArrTmp[0]; 
+    int nbCritFinal=1;
+    for (int i = 1; i < nbCrit; i++)
     {
-        critArr[i] = critArrTmp[i]; 
+        if(critArrTmp[i][X] != critArrTmp[i-1][X] )
+        {
+            critArr[nbCritFinal] = critArrTmp[i];
+            nbCritFinal++;
+        }
     }
     free(critArrTmp);
 
     struct CriticalPoints cp;
-    cp.size = nbCrit;
+    cp.size = nbCritFinal;
     cp.low = 0;
     cp.points = critArr;
     return cp;
@@ -137,17 +127,20 @@ int main(void)
 
     struct CriticalPoints solution = diviserReigner(critPoints);
 
-    int max = solution.points[0][X];
+    int * last = solution.points[0];
     printf("%d\n", solution.size);
     int f = 0;
-    for (int i = 0; i < solution.size; i++)
+    for (int i = 1; i < solution.size; i++)
     {
         // printf("x = %d, y = %d\n", solution.points[i][X], solution.points[i][Y]);
-        if(solution.points[i][X] < max)
+        if(solution.points[i][X] == last[X] || solution.points[i][Y] == last[Y])
         {
+            printf("%d\n",i);
+            printf("%d %d\n",last[X], last[Y]);
+            printf("%d %d\n\n",solution.points[i][X], solution.points[i][Y]);
             f++;
         }
-        max = solution.points[i][X];
+        last = solution.points[i];
     }
     printf("%d\n", f);
 
