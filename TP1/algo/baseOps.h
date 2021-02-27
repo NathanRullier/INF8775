@@ -62,7 +62,7 @@ struct CriticalPoints readFile(char const * fileName)
     fclose(file);
 
     cp.points = arr;
-    // cp.size = 321;
+    // cp.size = 193;
     return cp;
 }
 
@@ -111,7 +111,7 @@ struct CriticalPoints filter(int ** solution, int size)
             free(solution[i]);
         }
     }
-
+    
     int ** finalArr = (int **)malloc(row * sizeof(int *));
 
     for (int i = 0; i < row; i++)

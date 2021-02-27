@@ -44,10 +44,24 @@ struct CriticalPoints diviserReigner(struct CriticalPoints critPoints)
     int r = right.low;
     int nbCrit = 0;
     bool lEnd = false;
+    bool rEnd = false;
 
     for(int i = 0; i < size ; i++)
     {
-        if(!lEnd && (r >= right.low + right.size || left.points[l][X] < right.points[r][X]))
+        if(left.points[l][X] == right.points[r][X])
+        {
+            h1 = left.points[l][Y];
+            h2 = right.points[r][Y];
+            critArrTmp[nbCrit++] = h1 > h2 ? left.points[l] : right.points[r];
+            hCur = h1 > h2 ? h1 : h2;
+            
+            i++;
+            r++;
+            if(r == right.low + right.size){r--; rEnd = true;}
+            l++;
+            if(l == left.low + left.size){l--; lEnd = true;}
+        }
+        else if(!lEnd && (rEnd || left.points[l][X] < right.points[r][X]))
         {
             h1 = left.points[l][Y];
             hCur = h1;
@@ -74,10 +88,6 @@ struct CriticalPoints diviserReigner(struct CriticalPoints critPoints)
             if(h1 >= hCur)
             {
                 hCur = h1;
-                if(left.points[l][X] == right.points[r][X])
-                {
-                    hCur = left.points[l][Y] > right.points[r][Y] ? left.points[l][Y] : right.points[r][Y];
-                }
                 if(hCur < hLast)
                 {
                     right.points[r][Y] = hCur;
@@ -86,14 +96,10 @@ struct CriticalPoints diviserReigner(struct CriticalPoints critPoints)
             }
             else
             {
-                if(left.points[l][X] == right.points[r][X])
-                {
-                    hCur = left.points[l][Y] > right.points[r][Y] ? left.points[l][Y] : right.points[r][Y];
-                }
-                critArrTmp[nbCrit] = right.points[r];
-                critArrTmp[nbCrit++][Y] = hCur;
+                critArrTmp[nbCrit++] = right.points[r];
             }
             r++;
+            if(r == right.low + right.size){r--; rEnd = true;}
         }
         hLast = hCur;
    }
