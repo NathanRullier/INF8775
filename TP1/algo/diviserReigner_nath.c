@@ -127,7 +127,7 @@ struct CriticalPoints diviserReigner(struct CriticalPoints critPoints)
 
 int main(void)
 {
-    struct CriticalPoints houses = readFile("../data/N1000_0");
+    struct CriticalPoints houses = readFile("../data/N5000_0");
 
     struct CriticalPoints critPoints = extractCritPoint(houses);
 
@@ -141,9 +141,9 @@ int main(void)
         // printf("x = %d, y = %d\n", solution.points[i][X], solution.points[i][Y]);
         if(solution.points[i][X] == last[X] || solution.points[i][Y] == last[Y])
         {
-            printf("%d\n",i);
-            printf("%d %d\n",last[X], last[Y]);
-            printf("%d %d\n\n",solution.points[i][X], solution.points[i][Y]);
+            // printf("%d\n",i);
+            // printf("%d %d\n",last[X], last[Y]);
+            // printf("%d %d\n\n",solution.points[i][X], solution.points[i][Y]);
             f++;
         }
         last = solution.points[i];

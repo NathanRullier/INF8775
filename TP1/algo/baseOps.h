@@ -62,7 +62,7 @@ struct CriticalPoints readFile(char const * fileName)
     fclose(file);
 
     cp.points = arr;
-    // cp.size = 193;
+    // cp.size = 91;
     return cp;
 }
 

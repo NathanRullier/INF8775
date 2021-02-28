@@ -10,16 +10,15 @@ struct CriticalPoints forceBrute(struct CriticalPoints houses, struct CriticalPo
     }
 
     int row = 0;
-    for(int i = 0; i < critPoints.size; ++i)
+    for(int i = 0; i < critPoints.size; i++)
     {
         int * critPoint = critPoints.points[i];
         int height = critPoint[Y];
 
-        for(int j = 0; j < houses.size; ++j)
+        for(int j = 0; j < houses.size; j++)
         {
             int * house = houses.points[j];
-
-            if(house[L] < critPoint[X] && critPoint[X] < house[R] && height < house[H])
+            if(house[L] <= critPoint[X] && critPoint[X] < house[R] && height < house[H])
             {
                 height = house[H];
             }
@@ -36,7 +35,7 @@ struct CriticalPoints forceBrute(struct CriticalPoints houses, struct CriticalPo
 
 int main(void)
 {
-    struct CriticalPoints houses = readFile("../data/N1000_0");
+    struct CriticalPoints houses = readFile("../data/N5000_0");
 
     struct CriticalPoints critPoints = extractCritPoint(houses);
 
