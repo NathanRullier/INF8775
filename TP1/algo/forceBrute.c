@@ -1,23 +1,23 @@
 #include <stdio.h>
 #include "baseOps.h"
 
-struct CriticalPoints forceBrute(struct CriticalPoints houses, struct CriticalPoints critPoints)
+CriticalPoints forceBrute(CriticalPoints * critPoints)
 {
-    int ** arr = (int **)malloc(critPoints.size * sizeof(int *)); 
-    for (int i = 0; i < critPoints.size; i++)
+    int ** arr = (int **)malloc(critPoints->size * sizeof(int *)); 
+    for (int i = 0; i < critPoints->size; i++)
     {
         arr[i] = (int *)malloc(2 * sizeof(int)); 
     }
 
     int row = 0;
-    for(int i = 0; i < critPoints.size; i++)
+    for(int i = 0; i < critPoints->size; i++)
     {
-        int * critPoint = critPoints.points[i];
+        int * critPoint = critPoints->points[i];
         int height = critPoint[Y];
 
-        for(int j = 0; j < houses.size; j++)
+        for(int j = 0; j < critPoints->housesSize; j++)
         {
-            int * house = houses.points[j];
+            int * house = critPoints->houses[j];
             if(house[L] <= critPoint[X] && critPoint[X] < house[R] && height < house[H])
             {
                 height = house[H];
@@ -28,18 +28,18 @@ struct CriticalPoints forceBrute(struct CriticalPoints houses, struct CriticalPo
         arr[row++][Y] = height;
     }
 
-    quickSort(arr, 0, critPoints.size - 1);
+    quickSort(arr, 0, critPoints->size - 1);
 
-    return filter(arr, critPoints.size);
+    return filter(arr, critPoints->size);
 }
 
 int main(void)
 {
-    struct CriticalPoints houses = readFile("../data/N5000_0");
+    CriticalPoints houses = readFile("../data/N5000_0");
 
-    struct CriticalPoints critPoints = extractCritPoint(houses);
+    CriticalPoints critPoints = extractCritPoint(&houses);
 
-    struct CriticalPoints solution = forceBrute(houses, critPoints);
+    CriticalPoints solution = forceBrute(&critPoints);
     
     int * last = solution.points[0];
     printf("%d\n", solution.size);

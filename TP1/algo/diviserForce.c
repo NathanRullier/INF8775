@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include "baseOps.h"
 
-struct CriticalPoints diviserReigner(struct CriticalPoints critPoints)
+struct CriticalPoints diviserForce(struct CriticalPoints critPoints, int limit)
 {
-    if (critPoints.size < 4)
+    if (critPoints.size < limit)
     {
         return critPoints;
     }
@@ -26,10 +26,10 @@ struct CriticalPoints diviserReigner(struct CriticalPoints critPoints)
     right.low = left.low + left.size;
     right.points = critPoints.points;
 
-    if(critPoints.size > 4)
+    if(critPoints.size > limit)
     {
-        left = diviserReigner(left);
-        right = diviserReigner(right);
+        left = diviserForce(left, limit);
+        right = diviserForce(right, limit);
     }
 
     int size = left.size + right.size;
@@ -127,11 +127,11 @@ struct CriticalPoints diviserReigner(struct CriticalPoints critPoints)
 
 int main(void)
 {
-    struct CriticalPoints houses = readFile("../data/N5000_0");
+    struct CriticalPoints houses = readFile("../data/N500000_0");
 
     struct CriticalPoints critPoints = extractCritPoint(houses);
 
-    struct CriticalPoints solution = diviserReigner(critPoints);
+    struct CriticalPoints solution = diviserForce(critPoints, 4);
 
     int * last = solution.points[0];
     printf("%d\n", solution.size);

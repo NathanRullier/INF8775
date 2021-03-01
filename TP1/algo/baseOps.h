@@ -10,15 +10,17 @@
 
 typedef enum {false, true} bool;
 
-struct CriticalPoints
+typedef struct criticalPoints
 {
     int size;
     int low;
     int ** points;
-};
+    // int ** houses;
+    int housesSize;
+} CriticalPoints;
 
 
-struct CriticalPoints readFile(char const * fileName)
+CriticalPoints readFile(char const * fileName)
 {
     FILE* file = fopen(fileName, "r"); 
     char line[256];
@@ -26,7 +28,7 @@ struct CriticalPoints readFile(char const * fileName)
     bool first = true;
     int **arr = NULL;
 
-    struct CriticalPoints cp;
+    CriticalPoints cp;
 
     int row = -1;
 
@@ -62,35 +64,37 @@ struct CriticalPoints readFile(char const * fileName)
     fclose(file);
 
     cp.points = arr;
-    // cp.size = 91;
+    cp.size = 400;
     return cp;
 }
 
-struct CriticalPoints extractCritPoint(struct CriticalPoints houses)
+CriticalPoints extractCritPoint(CriticalPoints * houses)
 {
-    int ** arr = (int **)malloc(houses.size * 2 * sizeof(int *)); 
-    for (int i = 0; i < houses.size * 2; i++)
+    int ** arr = (int **)malloc(houses->size * 2 * sizeof(int *)); 
+    for (int i = 0; i < houses->size * 2; i++)
     {
         arr[i] = (int *)malloc(2 * sizeof(int)); 
     }
 
     int row = 0;
-    for(int i = 0; i < houses.size; i++)
+    for(int i = 0; i < houses->size; i++)
     {
-        arr[row][X] = houses.points[i][L];
-        arr[row][Y] = houses.points[i][H];
-        arr[++row][X] = houses.points[i][R];
+        arr[row][X] = houses->points[i][L];
+        arr[row][Y] = houses->points[i][H];
+        arr[++row][X] = houses->points[i][R];
         arr[row++][Y] = 0;
     }
 
-    struct CriticalPoints cp;
+    CriticalPoints cp;
     cp.size = row;
     cp.points = arr;
+    // cp.houses = houses.points;
+    cp.housesSize = houses->size;
 
     return cp;
 }
 
-struct CriticalPoints filter(int ** solution, int size)
+CriticalPoints filter(int ** solution, int size)
 {
     int ** arr = (int **)malloc(size * sizeof(int *)); 
     
@@ -122,7 +126,7 @@ struct CriticalPoints filter(int ** solution, int size)
     free(arr);
     free(solution);
 
-    struct CriticalPoints cp;
+    CriticalPoints cp;
     cp.size = row;
     cp.points = finalArr;
 
