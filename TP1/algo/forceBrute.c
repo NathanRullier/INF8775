@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include "baseOps.h"
+#include "allAlgo.h"
 
 CriticalPoints forceBrute(CriticalPoints * critPoints)
 {
@@ -10,14 +9,14 @@ CriticalPoints forceBrute(CriticalPoints * critPoints)
     }
 
     int row = 0;
-    for(int i = 0; i < critPoints->size; i++)
+    for(int i = critPoints->low; i < critPoints->low + critPoints->size; i++)
     {
         int * critPoint = critPoints->points[i];
         int height = critPoint[Y];
 
-        for(int j = 0; j < critPoints->housesSize; j++)
+        for(int j = critPoints->low / 2; j < (critPoints->low + critPoints->size) / 2; j++)
         {
-            int * house = critPoints->houses[j];
+            int * house = critPoints->houses->points[j];
             if(house[L] <= critPoint[X] && critPoint[X] < house[R] && height < house[H])
             {
                 height = house[H];
@@ -46,7 +45,7 @@ int main(void)
     int f = 0;
     for (int i = 1; i < solution.size; i++)
     {
-        // printf("x = %d, y = %d\n", solution.points[i][X], solution.points[i][Y]);
+        printf("x = %d, y = %d\n", solution.points[i][X], solution.points[i][Y]);
         if(solution.points[i][X] == last[X] || solution.points[i][Y] == last[Y])
         {
             f++;

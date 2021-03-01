@@ -10,13 +10,12 @@
 
 typedef enum {false, true} bool;
 
-typedef struct criticalPoints
+typedef struct CriticalPoints
 {
     int size;
     int low;
     int ** points;
-    // int ** houses;
-    int housesSize;
+    struct CriticalPoints * houses;
 } CriticalPoints;
 
 
@@ -64,7 +63,7 @@ CriticalPoints readFile(char const * fileName)
     fclose(file);
 
     cp.points = arr;
-    cp.size = 400;
+    // cp.size = 400;
     return cp;
 }
 
@@ -88,8 +87,7 @@ CriticalPoints extractCritPoint(CriticalPoints * houses)
     CriticalPoints cp;
     cp.size = row;
     cp.points = arr;
-    // cp.houses = houses.points;
-    cp.housesSize = houses->size;
+    cp.houses = houses;
 
     return cp;
 }

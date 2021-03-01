@@ -1,35 +1,72 @@
-#include <stdio.h>
-#include "baseOps.h"
+#include "allAlgo.h"
 
-struct CriticalPoints diviserForce(struct CriticalPoints critPoints, int limit)
+CriticalPoints forceBrute(CriticalPoints * critPoints)
 {
-    if (critPoints.size < limit)
+    int ** arr = (int **)malloc(critPoints->size * sizeof(int *)); 
+    for (int i = 0; i < critPoints->size; i++)
     {
-        return critPoints;
+        arr[i] = (int *)malloc(2 * sizeof(int)); 
     }
 
-    int newSizeL = critPoints.size / 2;
-    int newSizeR = critPoints.size / 2;
+    int row = 0;
+    for(int i = critPoints->low; i < critPoints->low + critPoints->size; i++)
+    {
+        int * critPoint = critPoints->points[i];
+        int height = critPoint[Y];
+
+        for(int j = critPoints->low / 2; j < (critPoints->low + critPoints->size) / 2; j++)
+        {
+            int * house = critPoints->houses->points[j];
+            if(house[L] <= critPoint[X] && critPoint[X] < house[R] && height < house[H])
+            {
+                height = house[H];
+            }
+        }
+
+        arr[row][X] = critPoint[X];
+        arr[row++][Y] = height;
+    }
+
+    quickSort(arr, 0, critPoints->size - 1);
+
+    return filter(arr, critPoints->size);
+}
+
+CriticalPoints diviserForce(CriticalPoints * critPoints, int limit)
+{
+    if (critPoints->size < 4)
+    {
+        return *critPoints;
+    } 
+    else if (critPoints->size <= limit)
+    {
+        return forceBrute(critPoints);
+    }
+
+    int newSizeL = critPoints->size / 2;
+    int newSizeR = critPoints->size / 2;
     if(newSizeL % 2 == 1)
     {
         newSizeL ++;
         newSizeR --;
     }
 
-    struct CriticalPoints left;
+    CriticalPoints left;
     left.size = newSizeL;
-    left.low = critPoints.low;
-    left.points = critPoints.points;
+    left.low = critPoints->low;
+    left.points = critPoints->points;
+    left.houses = critPoints->houses;
 
-    struct CriticalPoints right;
+    CriticalPoints right;
     right.size = newSizeR;
     right.low = left.low + left.size;
-    right.points = critPoints.points;
+    right.points = critPoints->points;
+    right.houses = critPoints->houses;
 
-    if(critPoints.size > limit)
+    if(critPoints->size > 4)
     {
-        left = diviserForce(left, limit);
-        right = diviserForce(right, limit);
+        left = diviserForce(&left, limit);
+        right = diviserForce(&right, limit);
     }
 
     int size = left.size + right.size;
@@ -48,6 +85,7 @@ struct CriticalPoints diviserForce(struct CriticalPoints critPoints, int limit)
 
     for(int i = 0; i < size ; i++)
     {
+        // printf("%d\n",i);
         if(left.points[l][X] == right.points[r][X])
         {
             h1 = left.points[l][Y];
@@ -117,7 +155,7 @@ struct CriticalPoints diviserForce(struct CriticalPoints critPoints, int limit)
     }
     free(critArrTmp);
 
-    struct CriticalPoints cp;
+    CriticalPoints cp;
     cp.size = nbCritFinal;
     cp.low = 0;
     cp.points = critArr;
@@ -127,11 +165,11 @@ struct CriticalPoints diviserForce(struct CriticalPoints critPoints, int limit)
 
 int main(void)
 {
-    struct CriticalPoints houses = readFile("../data/N500000_0");
+    CriticalPoints houses = readFile("../data/N5000_0");
 
-    struct CriticalPoints critPoints = extractCritPoint(houses);
+    CriticalPoints critPoints = extractCritPoint(&houses);
 
-    struct CriticalPoints solution = diviserForce(critPoints, 4);
+    CriticalPoints solution = diviserForce(&critPoints, 500);
 
     int * last = solution.points[0];
     printf("%d\n", solution.size);

@@ -1,10 +1,47 @@
-#include "allAlgo.h"
+#include <stdio.h>
+#include "baseOps.h"
+
+CriticalPoints forceBrute(CriticalPoints * critPoints)
+{
+    int ** arr = (int **)malloc(critPoints->size * sizeof(int *)); 
+    for (int i = 0; i < critPoints->size; i++)
+    {
+        arr[i] = (int *)malloc(2 * sizeof(int)); 
+    }
+
+    int row = 0;
+    for(int i = critPoints->low; i < critPoints->low + critPoints->size; i++)
+    {
+        int * critPoint = critPoints->points[i];
+        int height = critPoint[Y];
+
+        for(int j = critPoints->low / 2; j < (critPoints->low + critPoints->size) / 2; j++)
+        {
+            int * house = critPoints->houses->points[j];
+            if(house[L] <= critPoint[X] && critPoint[X] < house[R] && height < house[H])
+            {
+                height = house[H];
+            }
+        }
+
+        arr[row][X] = critPoint[X];
+        arr[row++][Y] = height;
+    }
+
+    quickSort(arr, 0, critPoints->size - 1);
+
+    return filter(arr, critPoints->size);
+}
 
 CriticalPoints diviserReigner(CriticalPoints * critPoints, int limit)
 {
     if (critPoints->size < 4)
     {
         return *critPoints;
+    } 
+    else if (critPoints->size <= limit)
+    {
+        return forceBrute(critPoints);
     }
 
     int newSizeL = critPoints->size / 2;
@@ -19,16 +56,18 @@ CriticalPoints diviserReigner(CriticalPoints * critPoints, int limit)
     left.size = newSizeL;
     left.low = critPoints->low;
     left.points = critPoints->points;
+    left.houses = critPoints->houses;
 
     CriticalPoints right;
     right.size = newSizeR;
     right.low = left.low + left.size;
     right.points = critPoints->points;
+    right.houses = critPoints->houses;
 
     if(critPoints->size > 4)
     {
-        left = diviserReigner(&left, limit);
-        right = diviserReigner(&right, limit);
+        left = diviserForce(&left, limit);
+        right = diviserForce(&right, limit);
     }
 
     int size = left.size + right.size;
@@ -47,6 +86,7 @@ CriticalPoints diviserReigner(CriticalPoints * critPoints, int limit)
 
     for(int i = 0; i < size ; i++)
     {
+        // printf("%d\n",i);
         if(left.points[l][X] == right.points[r][X])
         {
             h1 = left.points[l][Y];
@@ -121,47 +161,4 @@ CriticalPoints diviserReigner(CriticalPoints * critPoints, int limit)
     cp.low = 0;
     cp.points = critArr;
     return cp;
-}
-
-
-int main(void)
-{
-    CriticalPoints houses = readFile("../data/N5000_0");
-
-    CriticalPoints critPoints = extractCritPoint(&houses);
-
-    CriticalPoints solution = diviserReigner(&critPoints, 0);
-
-    int * last = solution.points[0];
-    printf("%d\n", solution.size);
-    int f = 0;
-    for (int i = 1; i < solution.size; i++)
-    {
-        // printf("x = %d, y = %d\n", solution.points[i][X], solution.points[i][Y]);
-        if(solution.points[i][X] == last[X] || solution.points[i][Y] == last[Y])
-        {
-            // printf("%d\n",i);
-            // printf("%d %d\n",last[X], last[Y]);
-            // printf("%d %d\n\n",solution.points[i][X], solution.points[i][Y]);
-            f++;
-        }
-        last = solution.points[i];
-    }
-    printf("%d\n", f);
-
-    for (int i = 0; i < houses.size; i++)
-    {
-        free(houses.points[i]);
-    }
-    free(houses.points);
-
-    for (int i = 0; i < critPoints.size; i++)
-    {
-        free(critPoints.points[i]);
-    }
-    free(critPoints.points);
-
-    free(solution.points);
-
-    return 0;
 }
