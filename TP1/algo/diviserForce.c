@@ -29,7 +29,10 @@ CriticalPoints forceBrute(CriticalPoints * critPoints)
 
     quickSort(arr, 0, critPoints->size - 1);
 
-    return filter(arr, critPoints->size);
+    CriticalPoints cp = filter(arr, critPoints->size);
+    cp.low = 0;
+
+    return cp;
 }
 
 CriticalPoints diviserForce(CriticalPoints * critPoints, int limit)
