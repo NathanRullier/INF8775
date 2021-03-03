@@ -1,4 +1,4 @@
-#include "allAlgo.h"
+#include "baseOps.h"
 
 CriticalPoints forceBrute(CriticalPoints * critPoints)
 {

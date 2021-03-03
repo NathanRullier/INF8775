@@ -1,6 +1,6 @@
-#include "allAlgo.h"
+#include "baseOps.h"
 
-CriticalPoints diviserReigner(CriticalPoints * critPoints, int limit)
+CriticalPoints diviserReigner(CriticalPoints * critPoints)
 {
     if (critPoints->size < 4)
     {
@@ -27,8 +27,8 @@ CriticalPoints diviserReigner(CriticalPoints * critPoints, int limit)
 
     if(critPoints->size > 4)
     {
-        left = diviserReigner(&left, limit);
-        right = diviserReigner(&right, limit);
+        left = diviserReigner(&left);
+        right = diviserReigner(&right);
     }
 
     int size = left.size + right.size;
@@ -130,7 +130,7 @@ int main(void)
 
     CriticalPoints critPoints = extractCritPoint(&houses);
 
-    CriticalPoints solution = diviserReigner(&critPoints, 0);
+    CriticalPoints solution = diviserReigner(&critPoints);
 
     int * last = solution.points[0];
     printf("%d\n", solution.size);

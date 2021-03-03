@@ -1,4 +1,4 @@
-#include "allAlgo.h"
+#include "baseOps.h"
 
 CriticalPoints forceBrute(CriticalPoints * critPoints)
 {
@@ -45,7 +45,7 @@ int main(void)
     int f = 0;
     for (int i = 1; i < solution.size; i++)
     {
-        printf("x = %d, y = %d\n", solution.points[i][X], solution.points[i][Y]);
+        // printf("x = %d, y = %d\n", solution.points[i][X], solution.points[i][Y]);
         if(solution.points[i][X] == last[X] || solution.points[i][Y] == last[Y])
         {
             f++;

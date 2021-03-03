@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "baseOps.h"
 
 CriticalPoints forceBrute(CriticalPoints * critPoints)
@@ -66,8 +65,8 @@ CriticalPoints diviserReigner(CriticalPoints * critPoints, int limit)
 
     if(critPoints->size > 4)
     {
-        left = diviserForce(&left, limit);
-        right = diviserForce(&right, limit);
+        left = diviserReigner(&left, limit);
+        right = diviserReigner(&right, limit);
     }
 
     int size = left.size + right.size;
