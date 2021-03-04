@@ -3,29 +3,38 @@
 int main(int argc, char * argv[])
 {
     char data[100] = "../data/";
+    bool gotE = false;
 
-    char algo[5] = "";
+    char algo[10] = "";
 
-    bool show_time = false;
+    bool showTime = false;
+    bool showPoints = false;
 
-    clock_t start, end;
-    double cpu_time_used;
-
-
-    for(int i = 1; i < argc; i++){
-        char * arg = argv[i];
-        if(strcmp(arg,  "-a") == 0) {
-            strcpy(algo, argv[i+1]);
-            i++;
-        }else if(strcmp(arg,  "-t") == 0) {
-            show_time = true;
-        }else if(strcmp(arg,  "-e") == 0) {
-            strcat(data, argv[i+1]);
-            i++;
+    for(int i = 1; i < argc; i++)
+    {
+        if(!strcmp(argv[i], "-a"))
+        {
+            strcpy(algo, argv[++i]);
         }
-
+        else if(!strcmp(argv[i], "-t"))
+        {
+            showTime = true;
+        }
+        else if(!strcmp(argv[i], "-p"))
+        {
+            showPoints = true;
+        }
+        else if(!strcmp(argv[i], "-e"))
+        {
+            gotE = true;
+            strcat(data, argv[++i]);
+        }
     }
 
+    if(!gotE)
+    {
+        strcat(data, "N1000_0");
+    }
 
     CriticalPoints houses = readFile(data);
 
@@ -34,32 +43,27 @@ int main(int argc, char * argv[])
     int number = 0;
     if(argc >= 2)
     {
-        if(!strcmp(argv[1], "brute"))
+        if(!strcmp(algo, "brute"))
         {
             number = critPoints.size;
         }
-        else if(!strcmp(argv[1], "seuil"))
+        else if(!strcmp(algo, "seuil"))
         {
             number = 8;
         }
     }
 
-    start = clock();
+    clock_t start = clock();
     CriticalPoints solution = diviserReigner(&critPoints, number);
-    end = clock();
+    clock_t end = clock();
 
-    int * last = solution.points[0];
-    //printf("%d\n", solution.size);
-    int f = 0;
-    for (int i = 1; i < solution.size; i++)
+    if(showPoints)
     {
-        if(solution.points[i][X] == last[X] || solution.points[i][Y] == last[Y])
+        for (int i = 0; i < solution.size; i++)
         {
-            f++;
+            printf("x = %d, y = %d\n", solution.points[i][X], solution.points[i][Y]);
         }
-        last = solution.points[i];
     }
-    //printf("%d\n", f);
 
     for (int i = 0; i < houses.size; i++)
     {
@@ -75,9 +79,9 @@ int main(int argc, char * argv[])
 
     free(solution.points);
 
-    if(show_time){
-        cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-        printf("%d\n",cpu_time_used);
+    if(showTime){
+        double cpuTimeUsed = ((double) (end - start)) / CLOCKS_PER_SEC;
+        printf("Time: %f\n", cpuTimeUsed);
     }
 
     return 0;
