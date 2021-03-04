@@ -1,12 +1,27 @@
 #include "allAlgo.h"
 
-int main(void)
+int main(int argc, char * argv[])
 {
-    CriticalPoints houses = readFile("../data/N5000_0");
+    char data[100] = "../data/";
+    char * number = "0";
+    if(argc == 1)
+    {
+        strcat(data, "N1000_0");
+    }
+    else
+    {
+        strcat(data, argv[1]);
+        if(argc >= 3)
+        {
+            number = argv[2];
+        }
+    }
+
+    CriticalPoints houses = readFile(data);
 
     CriticalPoints critPoints = extractCritPoint(&houses);
 
-    CriticalPoints solution = diviserReigner(&critPoints, 500);
+    CriticalPoints solution = diviserReigner(&critPoints, strtol(number, NULL, 10));
 
     int * last = solution.points[0];
     printf("%d\n", solution.size);

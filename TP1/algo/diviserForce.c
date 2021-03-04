@@ -175,7 +175,7 @@ int main(void)
 
     CriticalPoints critPoints = extractCritPoint(&houses);
 
-    CriticalPoints solution = diviserForce(&critPoints, 50);
+    CriticalPoints solution = diviserForce(&critPoints, 60);
 
     int * last = solution.points[0];
     printf("%d\n", solution.size);
