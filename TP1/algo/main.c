@@ -2,7 +2,7 @@
 #include <time.h>
 int main(int argc, char * argv[])
 {
-    char data[100] = "../data/";
+    char data[200] = "";
     bool gotE = false;
 
     char algo[10] = "";
@@ -33,7 +33,7 @@ int main(int argc, char * argv[])
 
     if(!gotE)
     {
-        strcat(data, "N1000_0");
+        strcat(data, "../data/N1000_0");
     }
 
     CriticalPoints houses = readFile(data);
