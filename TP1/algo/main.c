@@ -3,16 +3,25 @@
 int main(int argc, char * argv[])
 {
     char data[100] = "../data/";
-    
-    if(argc >= 3)
-    {
-        strcat(data, argv[2]);
+
+    char algo[5] = "";
+
+    bool time = false;
+
+    for(int i = 1; i < argc; i++){
+        char * arg = argv[i];
+        if(strcmp(arg,  "-a") == 0) {
+            strcpy(algo, argv[i+1]);
+            i++;
+        }else if(strcmp(arg,  "-t") == 0) {
+            time = true;
+        }else if(strcmp(arg,  "-e") == 0) {
+            strcat(data, argv[i+1]);
+            i++;
+        }
+
     }
-    else
-    {
-        strcat(data, "N1000_0");
-    }
-    
+
 
     CriticalPoints houses = readFile(data);
 
