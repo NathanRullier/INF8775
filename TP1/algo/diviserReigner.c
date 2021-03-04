@@ -51,9 +51,12 @@ CriticalPoints diviserReigner(CriticalPoints * critPoints)
         {
             h1 = left.points[l][Y];
             h2 = right.points[r][Y];
-            critArrTmp[nbCrit++] = h1 > h2 ? left.points[l] : right.points[r];
             hCur = h1 > h2 ? h1 : h2;
-            
+	    if(hCur != hLast)
+	    {
+                critArrTmp[nbCrit++] = h1 > h2 ? left.points[l] : right.points[r];
+            }
+
             i++;
             r++;
             if(r == right.low + right.size){r--; rEnd = true;}
@@ -126,7 +129,7 @@ CriticalPoints diviserReigner(CriticalPoints * critPoints)
 
 int main(void)
 {
-    CriticalPoints houses = readFile("../data/N5000_0");
+    CriticalPoints houses = readFile("../data/N50000_0");
 
     CriticalPoints critPoints = extractCritPoint(&houses);
 
@@ -141,8 +144,8 @@ int main(void)
         if(solution.points[i][X] == last[X] || solution.points[i][Y] == last[Y])
         {
             // printf("%d\n",i);
-            // printf("%d %d\n",last[X], last[Y]);
-            // printf("%d %d\n\n",solution.points[i][X], solution.points[i][Y]);
+            printf("%d %d\n",last[X], last[Y]);
+            printf("%d %d\n\n",solution.points[i][X], solution.points[i][Y]);
             f++;
         }
         last = solution.points[i];

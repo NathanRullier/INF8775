@@ -93,10 +93,13 @@ CriticalPoints diviserReigner(CriticalPoints * critPoints, int limit)
         {
             h1 = left.points[l][Y];
             h2 = right.points[r][Y];
-            critArrTmp[nbCrit++] = h1 > h2 ? left.points[l] : right.points[r];
             hCur = h1 > h2 ? h1 : h2;
-            
-            i++;
+	    if(hCur != hLast)
+	    {
+		critArrTmp[nbCrit++] = h1 > h2 ? left.points[l] : right.points[r];
+	    }
+
+	    i++;
             r++;
             if(r == right.low + right.size){r--; rEnd = true;}
             l++;

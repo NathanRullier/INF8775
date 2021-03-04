@@ -37,7 +37,7 @@ CriticalPoints forceBrute(CriticalPoints * critPoints)
 
 int main(void)
 {
-    CriticalPoints houses = readFile("../data/N5000_0");
+    CriticalPoints houses = readFile("../data/N50000_0");
 
     CriticalPoints critPoints = extractCritPoint(&houses);
 
