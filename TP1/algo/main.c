@@ -1,12 +1,16 @@
 #include "allAlgo.h"
-
+#include <time.h>
 int main(int argc, char * argv[])
 {
     char data[100] = "../data/";
 
     char algo[5] = "";
 
-    bool time = false;
+    bool show_time = false;
+
+    clock_t start, end;
+    double cpu_time_used;
+
 
     for(int i = 1; i < argc; i++){
         char * arg = argv[i];
@@ -14,7 +18,7 @@ int main(int argc, char * argv[])
             strcpy(algo, argv[i+1]);
             i++;
         }else if(strcmp(arg,  "-t") == 0) {
-            time = true;
+            show_time = true;
         }else if(strcmp(arg,  "-e") == 0) {
             strcat(data, argv[i+1]);
             i++;
@@ -40,10 +44,12 @@ int main(int argc, char * argv[])
         }
     }
 
+    start = clock();
     CriticalPoints solution = diviserReigner(&critPoints, number);
+    end = clock();
 
     int * last = solution.points[0];
-    printf("%d\n", solution.size);
+    //printf("%d\n", solution.size);
     int f = 0;
     for (int i = 1; i < solution.size; i++)
     {
@@ -53,7 +59,7 @@ int main(int argc, char * argv[])
         }
         last = solution.points[i];
     }
-    printf("%d\n", f);
+    //printf("%d\n", f);
 
     for (int i = 0; i < houses.size; i++)
     {
@@ -68,6 +74,11 @@ int main(int argc, char * argv[])
     free(critPoints.points);
 
     free(solution.points);
+
+    if(show_time){
+        cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+        printf("%d\n",cpu_time_used);
+    }
 
     return 0;
 }
