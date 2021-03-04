@@ -3,25 +3,35 @@
 int main(int argc, char * argv[])
 {
     char data[100] = "../data/";
-    char * number = "0";
-    if(argc == 1)
+    
+    if(argc >= 3)
     {
-        strcat(data, "N1000_0");
+        strcat(data, argv[2]);
     }
     else
     {
-        strcat(data, argv[1]);
-        if(argc >= 3)
-        {
-            number = argv[2];
-        }
+        strcat(data, "N1000_0");
     }
+    
 
     CriticalPoints houses = readFile(data);
 
     CriticalPoints critPoints = extractCritPoint(&houses);
 
-    CriticalPoints solution = diviserReigner(&critPoints, strtol(number, NULL, 10));
+    int number = 0;
+    if(argc >= 2)
+    {
+        if(!strcmp(argv[1], "brute"))
+        {
+            number = critPoints.size;
+        }
+        else if(!strcmp(argv[1], "seuil"))
+        {
+            number = 8;
+        }
+    }
+
+    CriticalPoints solution = diviserReigner(&critPoints, number);
 
     int * last = solution.points[0];
     printf("%d\n", solution.size);
