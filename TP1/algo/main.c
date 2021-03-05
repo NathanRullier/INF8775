@@ -89,8 +89,8 @@ int main(int argc, char * argv[])
 
     double cpuTimeUsed = 0;
     if(showTime){
-        cpuTimeUsed = ((double) (end - start)) / CLOCKS_PER_SEC;
-        printf("Time: %f\n", cpuTimeUsed);
+        cpuTimeUsed = ((double) (end - start)) / CLOCKS_PER_SEC * 1000;
+        printf("%f\n", cpuTimeUsed);
     }
 
     return cpuTimeUsed;
