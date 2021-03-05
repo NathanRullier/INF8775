@@ -4,6 +4,7 @@ int main(int argc, char * argv[])
 {
     char data[200] = "";
     bool gotE = false;
+    bool gotA = false;
 
     char algo[10] = "";
 
@@ -14,6 +15,7 @@ int main(int argc, char * argv[])
     {
         if(!strcmp(argv[i], "-a"))
         {
+            gotA = true;
             strcpy(algo, argv[++i]);
         }
         else if(!strcmp(argv[i], "-t"))
@@ -33,7 +35,13 @@ int main(int argc, char * argv[])
 
     if(!gotE)
     {
-        strcat(data, "../data/N1000_0");
+        printf("Vous devez entrer un chemin (-e CHEMIN_EXEMPLAIRE)\n");
+        return 1;
+    }
+    if(!gotA)
+    {
+        printf("Vous devez entrer un type d'algorithme (-a {brute, recursif, seuil})\n");
+        return 1;
     }
 
     CriticalPoints houses = readFile(data);
@@ -61,7 +69,7 @@ int main(int argc, char * argv[])
     {
         for (int i = 0; i < solution.size; i++)
         {
-            printf("x = %d, y = %d\n", solution.points[i][X], solution.points[i][Y]);
+            printf("%d %d\n", solution.points[i][X], solution.points[i][Y]);
         }
     }
 
@@ -79,10 +87,11 @@ int main(int argc, char * argv[])
 
     free(solution.points);
 
+    double cpuTimeUsed = 0;
     if(showTime){
-        double cpuTimeUsed = ((double) (end - start)) / CLOCKS_PER_SEC;
-        printf("Time: %f\n", cpuTimeUsed);
+        cpuTimeUsed = ((double) (end - start)) / CLOCKS_PER_SEC * 1000;
+        printf("%f\n", cpuTimeUsed);
     }
 
-    return 0;
+    return cpuTimeUsed;
 }
