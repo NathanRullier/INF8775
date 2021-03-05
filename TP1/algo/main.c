@@ -11,8 +11,6 @@ int main(int argc, char * argv[])
     bool showTime = false;
     bool showPoints = false;
 
-    double cpuTimeUsed = 0;
-
     for(int i = 1; i < argc; i++)
     {
         if(!strcmp(argv[i], "-a"))
@@ -37,12 +35,12 @@ int main(int argc, char * argv[])
 
     if(!gotE)
     {
-        printf("Vous devez entrer un chemin (-e CHEMIN_EXEMPLAIRE)");
+        printf("Vous devez entrer un chemin (-e CHEMIN_EXEMPLAIRE)\n");
         return 1;
     }
     if(!gotA)
     {
-        printf("Vous devez entrer un type d'algorithme (-a {brute, recursif, seuil})");
+        printf("Vous devez entrer un type d'algorithme (-a {brute, recursif, seuil})\n");
         return 1;
     }
 
@@ -89,6 +87,7 @@ int main(int argc, char * argv[])
 
     free(solution.points);
 
+    double cpuTimeUsed = 0;
     if(showTime){
         cpuTimeUsed = ((double) (end - start)) / CLOCKS_PER_SEC;
         printf("Time: %f\n", cpuTimeUsed);
