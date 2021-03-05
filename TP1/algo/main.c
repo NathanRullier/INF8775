@@ -69,7 +69,7 @@ int main(int argc, char * argv[])
     {
         for (int i = 0; i < solution.size; i++)
         {
-            printf("x = %d, y = %d\n", solution.points[i][X], solution.points[i][Y]);
+            printf("%d %d\n", solution.points[i][X], solution.points[i][Y]);
         }
     }
 
