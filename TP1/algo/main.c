@@ -10,6 +10,8 @@ int main(int argc, char * argv[])
     bool showTime = false;
     bool showPoints = false;
 
+    double cpuTimeUsed = 0;
+
     for(int i = 1; i < argc; i++)
     {
         if(!strcmp(argv[i], "-a"))
@@ -80,9 +82,9 @@ int main(int argc, char * argv[])
     free(solution.points);
 
     if(showTime){
-        double cpuTimeUsed = ((double) (end - start)) / CLOCKS_PER_SEC;
+        cpuTimeUsed = ((double) (end - start)) / CLOCKS_PER_SEC;
         printf("Time: %f\n", cpuTimeUsed);
     }
 
-    return 0;
+    return cpuTimeUsed;
 }
