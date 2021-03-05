@@ -4,6 +4,7 @@ int main(int argc, char * argv[])
 {
     char data[200] = "";
     bool gotE = false;
+    bool gotA = false;
 
     char algo[10] = "";
 
@@ -14,6 +15,7 @@ int main(int argc, char * argv[])
     {
         if(!strcmp(argv[i], "-a"))
         {
+            gotA = true;
             strcpy(algo, argv[++i]);
         }
         else if(!strcmp(argv[i], "-t"))
@@ -33,7 +35,13 @@ int main(int argc, char * argv[])
 
     if(!gotE)
     {
-        strcat(data, "../data/N1000_0");
+        printf("Vous devez entrer un chemin (-e CHEMIN_EXEMPLAIRE)");
+        return 1;
+    }
+    if(!gotA)
+    {
+        printf("Vous devez entrer un type d'algorithme (-a {brute, recursif, seuil})");
+        return 1;
     }
 
     CriticalPoints houses = readFile(data);
