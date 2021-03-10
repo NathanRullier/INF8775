@@ -10,7 +10,7 @@ typedef struct
     int y;
 } XY;
 
-vector<XY> readFile(string path)
+vector<XY> readFile(string const path)
 {
     ifstream myReadFile;
     string line;
