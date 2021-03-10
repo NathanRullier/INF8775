@@ -1,3 +1,3 @@
 #include "baseOps.h"
 
-vector<XY> glouton(vector<XY> & points);
+vector<XY> & glouton(vector<XY> & points);
