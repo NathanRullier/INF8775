@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Pour glouton et approx
+for n in "1000" "5000" "10000" "50000" "100000"; do
+    python3 ./inst_gen.py -s $n -n 5
+done
