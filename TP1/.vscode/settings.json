@@ -1,8 +1,0 @@
-{
-    "files.associations": {
-        "stdio.h": "c",
-        "limits": "c",
-        "allalgo.h": "c",
-        "baseops.h": "c"
-    }
-}
