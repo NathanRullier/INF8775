@@ -3,7 +3,7 @@
 
 int main(int argc, char * argv[])
 {
-    vector<XY> points = readFile("../data/N1000_0"); // argv[1]);
+    vector<XY> points = readFile("../data/DP_N5_0"); // argv[1]);
     vector<XY> result;
     clock_t start;
     clock_t end;

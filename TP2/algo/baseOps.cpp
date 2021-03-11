@@ -24,9 +24,9 @@ vector<XY> readFile(string const path)
         }
     }
     
-    myReadFile.close();  
+    myReadFile.close();
 
     point.pop_back();
-      
+
     return point;
 }
