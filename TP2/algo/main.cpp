@@ -28,7 +28,7 @@ int main(int argc, char * argv[])
         break;
     }
 
-    if(true) // *argv[3] == '1')
+    if(false) // *argv[3] == '1')
     {
         double cpuTimeUsed = ((double) (end - start)) / CLOCKS_PER_SEC * 1000;
         cout << cpuTimeUsed << endl;
