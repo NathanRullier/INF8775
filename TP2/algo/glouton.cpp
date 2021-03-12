@@ -1,6 +1,4 @@
 #include "allAlgo.h"
-#include <math.h>
-#include <limits>
 
 vector<XY> glouton(vector<XY> & points)
 {

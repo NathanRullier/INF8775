@@ -3,12 +3,12 @@
 
 int main(int argc, char * argv[])
 {
-    vector<XY> points = readFile("../data/DP_N5_0"); // argv[1]);
+    vector<XY> points = readFile("../data/DP_N10_0"); // argv[1]);
     vector<XY> result;
     clock_t start;
     clock_t end;
 
-    switch ('0') // *argv[2])
+    switch ('1') // *argv[2])
     {
     case '0':
         start = clock();
@@ -17,7 +17,9 @@ int main(int argc, char * argv[])
         break;
     
     case '1':
-        /* code */
+        start = clock();
+        result = dynamique(points);
+        end = clock();
         break;
     
     case '2':
@@ -34,7 +36,7 @@ int main(int argc, char * argv[])
         cout << cpuTimeUsed << endl;
     }
 
-    if(true) // *argv[4] == '1')
+    if(false) // *argv[4] == '1')
     {
         for (size_t i = 0; i < result.size(); i++)
         {
