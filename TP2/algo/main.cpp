@@ -3,8 +3,8 @@
 
 int main(int argc, char * argv[])
 {
-    vector<XY> points = readFile("../data/DP_N10_0"); // argv[1]);
-    vector<XY> result;
+    vector<XY> points = readFile("../data/DP_N15_0"); // argv[1]);
+    list<int> result;
     clock_t start;
     clock_t end;
 
@@ -36,11 +36,10 @@ int main(int argc, char * argv[])
         cout << cpuTimeUsed << endl;
     }
 
-    if(false) // *argv[4] == '1')
+    if(true) // *argv[4] == '1')
     {
-        for (size_t i = 0; i < result.size(); i++)
-        {
-            cout << result[i].x << " " << result[i].y << endl;
+        for (int const& i : result) {
+            cout << i << endl;
         }
     }
 
