@@ -8,7 +8,7 @@ int main(int argc, char * argv[])
     clock_t start;
     clock_t end;
 
-    switch ('1') // *argv[2])
+    switch ('2') // *argv[2])
     {
     case '0':
         start = clock();
@@ -23,7 +23,9 @@ int main(int argc, char * argv[])
         break;
     
     case '2':
-        /* code */
+        start = clock();
+        result = approximatif(points);
+        end = clock();
         break;
     
     default:
