@@ -1,9 +1,10 @@
 #include "baseOps.h"
 #include <math.h>
 #include <limits>
+#include <list>
 
-vector<XY> glouton(vector<XY> & points);
+list<int> glouton(vector<XY> & points);
 
-vector<XY> dynamique(vector<XY> & points);
+list<int> dynamique(vector<XY> & points);
 
-vector<XY> approximatif(vector<XY> & points);
+list<int> approximatif(vector<XY> & points);

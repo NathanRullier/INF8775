@@ -1,6 +1,6 @@
 #include "allAlgo.h"
 
-vector<XY> approximatif(vector<XY> & points)
+list<int> approximatif(vector<XY> & points)
 {
     vector<XY> results;
     int numberOfPoints = points.size();
