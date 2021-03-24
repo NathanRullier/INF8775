@@ -1,7 +1,7 @@
 CC = g++ # Flag for implicit rules
 CFLAGS= 
 DEPS = baseOps.h allAlgo.h
-OBJ = main.o baseOps.o glouton.o dynamique.o
+OBJ = main.o baseOps.o glouton.o dynamique.o approximatif.o
 
 %.o: %.c $(DEPS)
 	@$(CC) -c -o $@ $< $(CFLAGS)
