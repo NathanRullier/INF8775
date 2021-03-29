@@ -1,37 +1,31 @@
 #include "allAlgo.h"
 #include <time.h>
+#include <cstring>
 
 int main(int argc, char * argv[])
 {
-    vector<XY> points = readFile("../data/DP_N15_0"); // argv[1]);
+    vector<XY> points = readFile(argv[1]); // argv[1]);
     list<int> result;
     clock_t start;
     clock_t end;
 
-    switch ('2') // *argv[2])
-    {
-    case '0':
+    if(!strcmp("glouton" , argv[2])){
         start = clock();
         result = glouton(points);
         end = clock();
-        break;
+    }
     
-    case '1':
+    else if(!strcmp("progdyn",argv[2])){
         start = clock();
         result = dynamique(points);
         end = clock();
-        break;
-    
-    case '2':
+    }
+    else if(!strcmp("approx",argv[2])){
         start = clock();
         result = approximatif(points);
         end = clock();
-        break;
-    
-    default:
-        break;
     }
-
+    
     if(false) // *argv[3] == '1')
     {
         double cpuTimeUsed = ((double) (end - start)) / CLOCKS_PER_SEC * 1000;
