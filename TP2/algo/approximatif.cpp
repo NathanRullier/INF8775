@@ -93,6 +93,11 @@ list<int> approximatif(vector<XY> & points)
         }
     }
 
+    //cout << "eulerianCycle" << endl;
+    //for(int i = 0; i <  eulerianCycle.size(); i++){
+    //    cout << eulerianCycle[i] << endl;
+    //}
+
     bool added[numberOfPoints];
     for (int i = 0; i < numberOfPoints; i++){
         used[0] = false; 
