@@ -8,33 +8,32 @@ int main(int argc, char * argv[])
     clock_t start;
     clock_t end;
 
-    bool gotE = false;
-    bool gotA = false;
+    bool gotE = true;
     bool showTime = false;
     bool showPoints = false;
+    bool showDist = false;
 
-    string data = "";
-    string algo = "";
+    string data = argv[1];
+    string algo = argv[2];
 
-    for(int i = 0; i< argc; i++){
+    if(!strcmp(argv[1], ""))
+    {
+        gotE = false;
+    }
 
-        if(!strcmp(argv[i], "-a")){
-                gotA = true;
-                algo = argv[++i];
-        }
-        else if(!strcmp(argv[i], "-e"))
-        {
-            gotE = true;
-            data = argv[++i];
-        }
-        else if(!strcmp(argv[i], "-t"))
-        {
-            showTime = true;
-        }
-        else if(!strcmp(argv[i], "-p"))
-        {
-            showPoints = true;
-        }
+    if(!strcmp(argv[3], "1"))
+    {
+        showTime = true;
+    }
+
+    if(!strcmp(argv[4], "1"))
+    {
+        showPoints = true;
+    }
+
+    if(!strcmp(argv[5], "1"))
+    {
+        showDist = true;
     }
 
     if(!gotE)
@@ -42,25 +41,20 @@ int main(int argc, char * argv[])
         cout << "Vous devez entrer un chemin (-e CHEMIN_EXEMPLAIRE)\n";
         return 1;
     }
-    if(!gotA)
-    {
-        cout << "Vous devez entrer un type d'algorithme (-a {brute, recursif, seuil})\n";
-        return 1;
-    }
 
     vector<XY> points = readFile(data);
 
-    if( "glouton" == algo){
+    if( "0" == algo){
         start = clock();
         result = glouton(points);
         end = clock();
     }
-    else if("progdyn" == algo){
+    else if("1" == algo){
         start = clock();
         result = dynamique(points);
         end = clock();
     }
-    else if("approx" == algo){
+    else if("2" == algo){
         start = clock();
         result = approximatif(points);
         end = clock();
@@ -76,6 +70,26 @@ int main(int argc, char * argv[])
         for (int const& i : result) {
             cout << i << endl;
         }
+    }
+    if(showDist)
+    {
+        float dist = 0;
+        XY last = points[result.front()];
+        bool first = true;
+        for (int const& elm : result)
+        {
+            if(!first) 
+            {
+                dist += sqrt(pow(last.x-points[elm].x,2) + pow(last.y-points[elm].y,2));
+            }
+            else
+            {
+                first = false;
+            }
+
+            last = points[elm];
+        }
+        cout << dist << endl;
     }
 
     return 0;

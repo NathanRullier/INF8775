@@ -57,10 +57,10 @@ list<int> approximatif(vector<XY> & points)
   
     } 
 
-    cout<<"Edge \tWeight\n"; 
-    for (int i = 1; i < numberOfPoints; i++){
-        cout<<parent[i]<<" - "<<i<<" \t"<<graph[i][parent[i]]<<" \n";
-    }
+    // cout<<"Edge \tWeight\n"; 
+    // for (int i = 1; i < numberOfPoints; i++){
+    //     cout<<parent[i]<<" - "<<i<<" \t"<<graph[i][parent[i]]<<" \n";
+    // }
 
     int **graphEulerian = new int*[(numberOfPoints-1)*2];
     

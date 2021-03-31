@@ -1,6 +1,6 @@
 #include "allAlgo.h"
 
-list<int> glouton(vector<XY> & points)
+list<int> glouton(vector<XY> points)
 {
     list<int> ordre = {0};
     vector<int> num;

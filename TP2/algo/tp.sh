@@ -22,10 +22,11 @@
 
 PRINT=0
 TIME=0
+DIST=0
 ALG=0
 INST=""
 
-while getopts "e:a:pt" o; do
+while getopts "e:a:ptd" o; do
     case $o in
         e)
             INST=$OPTARG
@@ -53,10 +54,13 @@ while getopts "e:a:pt" o; do
         t)
             TIME=1
             ;;
+        d)
+            DIST=1
+            ;;
     esac
 done
 
-./exec $INST $ALG $TIME $PRINT
+./exec $INST $ALG $TIME $PRINT $DIST
 #python3 main.py $INST $ALG $TIME $PRINT
 #java main.java $INST $ALG $TIME $PRINT
 #...
