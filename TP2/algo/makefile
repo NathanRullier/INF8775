@@ -8,7 +8,7 @@ OBJ = main.o baseOps.o glouton.o dynamique.o approximatif.o
 
 exec: $(OBJ)
 	@$(CC) -o $@ $^ $(CFLAGS)
-	#@rm *.o
+	@rm *.o
 
     
 .PHONY: clean
