@@ -1,5 +1,5 @@
 CC = g++ # Flag for implicit rules
-CFLAGS = -Ofast
+CFLAGS = 
 DEPS = baseOps.h allAlgo.h
 OBJ = main.o baseOps.o glouton.o dynamique.o approximatif.o dyn.o
 
