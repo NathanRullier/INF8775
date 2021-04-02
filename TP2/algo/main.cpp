@@ -56,7 +56,7 @@ int main(int argc, char * argv[])
     }
     else if("2" == algo){
         start = clock();
-        result = dyn(points);
+        result = approximatif(points);
         end = clock();
     }
 
