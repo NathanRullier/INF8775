@@ -5,9 +5,9 @@ list<int> approximatif(vector<XY> & points)
     list<int> results;
     int numberOfPoints = points.size();
 
-    int **graph = new int*[numberOfPoints];
+
+    std::vector<std::vector<int>> graph(numberOfPoints,std::vector<int>(numberOfPoints));
 	for(int i = 0; i < numberOfPoints; i++){
-		graph[i] = new int[numberOfPoints];
 		for(int j = 0; j < numberOfPoints; j++){
 			graph[i][j] = 0;
 		}
@@ -55,18 +55,9 @@ list<int> approximatif(vector<XY> & points)
             
         }
   
-    } 
+    }     
 
-    // cout<<"Edge \tWeight\n"; 
-    // for (int i = 1; i < numberOfPoints; i++){
-    //     cout<<parent[i]<<" - "<<i<<" \t"<<graph[i][parent[i]]<<" \n";
-    // }
-
-    int **graphEulerian = new int*[(numberOfPoints-1)*2];
-    
-    for (int i = 0; i < (numberOfPoints-1)*2; i++){
-        graphEulerian[i]=new int[2];
-    }
+    int graphEulerian[(numberOfPoints-1)*2][2];
     
     for (int i = 1; i < numberOfPoints; i++){
         graphEulerian[i-1][0] = parent[i];
@@ -74,14 +65,17 @@ list<int> approximatif(vector<XY> & points)
         graphEulerian[i+numberOfPoints-2][0] = i;
         graphEulerian[i+numberOfPoints-2][1] = parent[i];
     }
+    
 
     bool used[(numberOfPoints-1)*2];
     for (int i = 0; i < (numberOfPoints-1)*2; i++){
-        used[0] = false; 
+        used[i] = false; 
     }
 
     vector<int> eulerianCycle;
     eulerianCycle.push_back(0);
+
+    int z = 0;
 
     for (int i = 0; i < (numberOfPoints-1)*2 -1; i++){
         for (int j= 0; j < (numberOfPoints-1)*2; j++){
@@ -93,24 +87,26 @@ list<int> approximatif(vector<XY> & points)
         }
     }
 
-    //cout << "eulerianCycle" << endl;
-    //for(int i = 0; i <  eulerianCycle.size(); i++){
-    //    cout << eulerianCycle[i] << endl;
-    //}
-
     bool added[numberOfPoints];
     for (int i = 0; i < numberOfPoints; i++){
-        used[0] = false; 
+        added[i] = false; 
     }
+
+    int a = 0;
     
     for (int i = 0; i < eulerianCycle.size(); i++){
         if(!added[eulerianCycle[i]]){
-
+            
             results.push_back(eulerianCycle[i]);
             added[eulerianCycle[i]] = true;
+            a++;
         }
     }
+    
     results.push_back(results.front());
+
+    graph.clear();
+    eulerianCycle.clear();
 
     return results;
 }
