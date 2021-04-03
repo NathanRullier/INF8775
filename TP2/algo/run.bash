@@ -11,13 +11,13 @@ for algo in "progdyn"; do
     done
 done >> results.csv
 
-# for algo in "approx"; do
-#    for testset_folder in $(ls $ex_folder); do
-#        for ex in $(ls ${ex_folder}/${testset_folder}); do
-#            size=$(echo $ex)
-#            t=$(./tp.sh -e ${ex_folder}/${testset_folder}/${ex} -a $algo -t)
-#            d=$(./tp.sh -e ${ex_folder}/${testset_folder}/${ex} -a $algo -d)
-#            echo $algo,$testset_folder,$size,$t,$d
-#        done
-#    done
-# done >> results2.csv
+for algo in "glouton" "approx"; do
+    for testset_folder in $(ls $ex_folder); do
+        for ex in $(ls ${ex_folder}/${testset_folder}); do
+            size=$(echo $ex)
+            t=$(./tp.sh -e ${ex_folder}/${testset_folder}/${ex} -a $algo -t)
+            d=$(./tp.sh -e ${ex_folder}/${testset_folder}/${ex} -a $algo -d)
+            echo $algo,$testset_folder,$size,$t,$d
+        done
+    done
+done >> results.csv
