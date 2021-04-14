@@ -10,20 +10,20 @@ int readFile(string const path, std::vector<std::vector<int>>& value,std::vector
 
     myReadFile.open(path);
     if (myReadFile.is_open()) {
-        for(int z = 0; z < 2; z++){
+        while (!myReadFile.eof()){
             if(!first)
             {
                 std::vector<std::vector<int>> valueRead(n,std::vector<int>(m));
                 std::vector<std::vector<int>> costRead(n,std::vector<int>(m));
 
                 for(int i = 0; i < n; i++){
-                    for(int j = 0; j < n; j++){
+                    for(int j = 0; j < m; j++){
                         myReadFile >> line;
                         valueRead[i][j] = stoi(line);
                     }
                 }
                 for(int i = 0; i < n; i++){
-                    for(int j = 0; j < n; j++){
+                    for(int j = 0; j < m; j++){
                         myReadFile >> line;
                         costRead[i][j] = stoi(line);
                     }
