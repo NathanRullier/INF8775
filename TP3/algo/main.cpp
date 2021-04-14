@@ -7,14 +7,14 @@ int main(int argc, char * argv[])
     clock_t start;
     clock_t end;
     
-    std::vector<std::vector<int>> value;
-    std::vector<std::vector<int>> cost;
+    vector<vector<int>> value;
+    vector<vector<int>> cost;
     readFile("../data/N500_M500", value, cost);
 
     start = clock();
 
-    std::vector<std::vector<int>> profit(value.size(),std::vector<int>(value[0].size()));
-    std::vector<std::vector<bool>> diggedUp(value.size(),std::vector<bool>(value[0].size(), false));
+    vector<vector<int>> profit(value.size(),vector<int>(value[0].size()));
+    vector<vector<bool>> diggedUp(value.size(),vector<bool>(value[0].size(), false));
 
     for(int i = 0; i < value.size(); i++){
         for(int j = 0; j < value[0].size(); j++){
@@ -33,7 +33,7 @@ int main(int argc, char * argv[])
         for(int i = 0; i < value.size(); i++){
             for(int j = 0; j < value[0].size(); j++){
                 if(diggedUp[i][j] == false){
-                    profitWithDig = value_profit(j,i,profit,diggedUp, diggedUp);
+                    profitWithDig = value_profit(j, i, profit,diggedUp, diggedUp);
                     if(profitWithDig > 0){
                         // cout << i << " " << j <<endl;
                         totalProfit += profitWithDig;

@@ -4,6 +4,6 @@
 
 using namespace std;
 
-int readFile(string const path, std::vector<std::vector<int>>& value,std::vector<std::vector<int>>& cost);
+void readFile(string const path, vector<vector<int>> & value, vector<vector<int>> & cost);
 
-int value_profit(int x, int y,std::vector<std::vector<int>> profit, std::vector<std::vector<bool>> & diggedUp, std::vector<std::vector<bool>> diggedUpCopy);
+int value_profit(int x, int y, vector<vector<int>> & profit, vector<vector<bool>> & diggedUp, vector<vector<bool>> diggedUpCopy);
