@@ -1,4 +1,4 @@
 #include "baseOps.h"
-#include <math.h>
 #include <limits>
-#include <list>
+
+int base(vector<vector<int>> &value, vector<vector<int>> &cost);
