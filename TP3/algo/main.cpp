@@ -8,6 +8,13 @@ int main(int argc, char * argv[])
     vector<vector<int>> cost;
     readFile("../data/N10_M10", value, cost);
 
+    //  for(int i = 0; i < value.size(); i++){
+    //     for(int j = 0; j < value[0].size(); j++){
+    //         cout << cost[i][j] << " ";
+    //     }
+    //     cout <<endl;
+    // }
+
     clock_t start = clock();
 
     vector<vector<int>> profit(value.size(),vector<int>(value[0].size()));
@@ -27,23 +34,20 @@ int main(int argc, char * argv[])
 
     while(profitWithDig >= 0){
         profitWithDig = -1;
-        for(int i = 0; i < value.size(); i++){
-            for(int j = 0; j < value[0].size(); j++){
-                if(diggedUp[i][j] == false){
+        for(int i = 0; i < value.size() && profitWithDig <= 0; i++){
+            for(int j = 0; j < value[0].size() && profitWithDig <= 0; j++){
+                if(!diggedUp[i][j]){
                     profitWithDig = value_profit(j, i, profit,diggedUp, diggedUp);
+                    // cout << profitWithDig <<endl;
                     if(profitWithDig > 0){
                         // cout << i << " " << j <<endl;
                         totalProfit += profitWithDig;
-                        break;
                     }
                     // if(i == value.size()-1 && j == value.size()-1 ){
                     //     whileBool = false;
                     //     break;
                     // }
                 }
-            }
-            if(profitWithDig > 0){
-                break;
             }
         }
     }
