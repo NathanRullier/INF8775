@@ -1,4 +1,5 @@
 #include "baseOps.h"
 #include <limits>
 
-int base(vector<vector<int>> &value, vector<vector<int>> &cost);
+int base(vector<vector<int>> &profit);
+int dynamic(vector<vector<int>> &profit);

@@ -36,6 +36,15 @@ int main(int argc, char *argv[])
     vector<vector<int>> cost;
     readFile(data, value, cost);
 
+    vector<vector<int>> profits(value.size(), vector<int>(value[0].size(), 0));
+    for (int i = 0; i < value.size(); i++)
+    {
+        for (int j = 0; j < value[0].size(); j++)
+        {
+            profits[i][j] = value[i][j] - cost[i][j];
+        }
+    }
+
     clock_t start;
     clock_t end;
     int profit = 0;
@@ -43,13 +52,13 @@ int main(int argc, char *argv[])
     if ("0" == algo)
     {
         start = clock();
-        profit = base(value, cost);
+        profit = base(profits);
         end = clock();
     }
     else if ("1" == algo)
     {
         start = clock();
-        profit = base(value, cost);
+        profit = base(profits);
         end = clock();
     }
 

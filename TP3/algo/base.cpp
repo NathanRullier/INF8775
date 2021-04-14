@@ -1,17 +1,8 @@
 #include "allAlgo.h"
 
-int base(vector<vector<int>> &value, vector<vector<int>> &cost)
+int base(vector<vector<int>> &profit)
 {
-    vector<vector<int>> profit(value.size(), vector<int>(value[0].size()));
-    vector<vector<bool>> diggedUp(value.size(), vector<bool>(value[0].size(), false));
-
-    for (int i = 0; i < value.size(); i++)
-    {
-        for (int j = 0; j < value[0].size(); j++)
-        {
-            profit[i][j] = value[i][j] - cost[i][j];
-        }
-    }
+    vector<vector<bool>> diggedUp(profit.size(), vector<bool>(profit[0].size(), false));
 
     int totalProfit = 0;
     int profitWithDig = 0;
@@ -19,9 +10,9 @@ int base(vector<vector<int>> &value, vector<vector<int>> &cost)
     while (profitWithDig >= 0)
     {
         profitWithDig = -1;
-        for (int i = 0; i < value.size() && profitWithDig <= 0; i++)
+        for (int i = 0; i < profit.size() && profitWithDig <= 0; i++)
         {
-            for (int j = 0; j < value[0].size() && profitWithDig <= 0; j++)
+            for (int j = 0; j < profit[0].size() && profitWithDig <= 0; j++)
             {
                 if (!diggedUp[i][j])
                 {
