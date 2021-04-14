@@ -8,8 +8,8 @@ int main(int argc, char *argv[])
     bool showTime = true;
     bool showProfit = true;
 
-    string data = "../data/N10_M10"; // argv[1];
-    string algo = "1";               // argv[2];
+    string data = "../data/N1000_M1000"; // argv[1];
+    string algo = "2";               // argv[2];
 
     // if(!strcmp(argv[1], ""))
     // {
@@ -59,6 +59,12 @@ int main(int argc, char *argv[])
     {
         start = clock();
         profit = dynamic(profits);
+        end = clock();
+    }
+    else if ("2" == algo)
+    {
+        start = clock();
+        profit = totalProfits(profits);
         end = clock();
     }
 

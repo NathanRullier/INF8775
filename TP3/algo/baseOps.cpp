@@ -1,4 +1,4 @@
-#include "baseOps.h"
+    #include "baseOps.h"
 
 void readFile(string const path, vector<vector<int>> &value, vector<vector<int>> &cost)
 {
@@ -88,11 +88,12 @@ int value_profit(int x, int y, vector<vector<int>> &profit,
     }
 
     return total_profit;
-}
+    }
 
-vector<vector<int>> all_profit(vector<vector<int>> profit, vector<vector<bool>> &diggedUp)
-{
-    vector<vector<int>> total_profits(profit.size(), vector<int>(profit[0].size()));
+    std::vector<std::vector<int>> all_profit(std::vector<std::vector<int>> profit, std::vector<std::vector<bool>> &diggedUp)
+    {
+
+    std::vector<std::vector<int>> total_profits(profit.size(), std::vector<int>(profit[0].size()));
     int max_profit = 0;
     int max_profit_i = 0;
     int max_profit_j = 0;
@@ -117,7 +118,7 @@ vector<vector<int>> all_profit(vector<vector<int>> profit, vector<vector<bool>> 
                         if (diggedUp[i][z] == false)
                         {
                             total_profits[i][j] += profit[i - 1][z];
-
+                        
                             if (total_profits[i][j] > max_profit)
                             {
                                 int max_profit = total_profits[i][j];
@@ -131,4 +132,4 @@ vector<vector<int>> all_profit(vector<vector<int>> profit, vector<vector<bool>> 
         }
     }
     return total_profits;
-}
+    }
