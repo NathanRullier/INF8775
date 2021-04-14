@@ -52,6 +52,21 @@ void readFile(string const path, vector<vector<int>> &value, vector<vector<int>>
     myReadFile.close();
 }
 
+int sumAll2D(vector<vector<int>> &profit)
+{
+    int sum = 0;
+
+    for (vector<int> const &profitRow : profit)
+    {
+        for (int const &p : profitRow)
+        {
+            sum += p;
+        }
+    }
+
+    return sum;
+}
+
 int value_profit(int x, int y, vector<vector<int>> &profit,
                  vector<vector<bool>> &diggedUp, vector<vector<bool>> diggedUpCopy)
 {

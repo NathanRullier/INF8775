@@ -7,9 +7,10 @@ int main(int argc, char *argv[])
     bool gotE = true;
     bool showTime = true;
     bool showProfit = true;
+    bool showMaxProfit = true;
 
     string data = "../data/N10_M10"; // argv[1];
-    string algo = "1";               // argv[2];
+    string algo = argv[1];
 
     // if(!strcmp(argv[1], ""))
     // {
@@ -36,12 +37,12 @@ int main(int argc, char *argv[])
     vector<vector<int>> cost;
     readFile(data, value, cost);
 
-    vector<vector<int>> profits(value.size(), vector<int>(value[0].size(), 0));
+    vector<vector<int>> profits(value.size(), vector<int>(value[0].size() + 2, 0));
     for (int i = 0; i < value.size(); i++)
     {
         for (int j = 0; j < value[0].size(); j++)
         {
-            profits[i][j] = value[i][j] - cost[i][j];
+            profits[i][j+1] = value[i][j] - cost[i][j];
         }
     }
 
@@ -70,6 +71,22 @@ int main(int argc, char *argv[])
     if (showProfit)
     {
         cout << profit << endl;
+    }
+    if (showMaxProfit)
+    {
+        int totalProfit = sumAll2D(profits);
+
+        for (int i = profits.size() - 1; i >= 0; i--)
+        {
+            for (int const &p : profits[i])
+            {
+                if (p < 0)
+                {
+                    totalProfit -= p;
+                }
+            }
+        }
+        cout << totalProfit << endl;
     }
 
     return 0;
