@@ -1,14 +1,13 @@
 CC = g++ # Flag for implicit rules
 CFLAGS = 
 DEPS = baseOps.h allAlgo.h
-OBJ = main.o baseOps.o 
+OBJ = main.o baseOps.o base.o
 
 %.o: %.c $(DEPS)
 	@$(CC) $(CFLAGS) -c -o $@ $< 
 
 exec: $(OBJ)
 	@$(CC) $(CFLAGS) -o $@ $^ 
-	@rm *.o
 
     
 .PHONY: clean

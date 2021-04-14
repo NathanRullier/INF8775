@@ -1,70 +1,69 @@
     #include "baseOps.h"
 
-    int readFile(string const path, std::vector<std::vector<int>> &value, std::vector<std::vector<int>> &cost)
-    {
-    int n = 0;
-    int m = 0;
+void readFile(string const path, vector<vector<int>> &value, vector<vector<int>> &cost)
+{
     ifstream myReadFile;
     string line;
     bool first = true;
+    int n = 0;
+    int m = 0;
 
     myReadFile.open(path);
     if (myReadFile.is_open())
     {
-        for (int z = 0; z < 2; z++)
+        for (int i = 0; i < 2; i++)
         {
-            if (!first)
-            {
-                std::vector<std::vector<int>> valueRead(n, std::vector<int>(m));
-                std::vector<std::vector<int>> costRead(n, std::vector<int>(m));
-
-                for (int i = 0; i < n; i++)
-                {
-                    for (int j = 0; j < n; j++)
-                    {
-                        myReadFile >> line;
-                        valueRead[i][j] = stoi(line);
-                    }
-                }
-                for (int i = 0; i < n; i++)
-                {
-                    for (int j = 0; j < n; j++)
-                    {
-                        myReadFile >> line;
-                        costRead[i][j] = stoi(line);
-                    }
-                }
-                value = valueRead;
-                cost = costRead;
-            }
             if (first)
             {
                 first = false;
+
                 myReadFile >> line;
                 n = stoi(line);
+
                 myReadFile >> line;
                 m = stoi(line);
+
+                value.resize(n, vector<int>(m));
+                cost.resize(n, vector<int>(m));
+            }
+            else
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    for (int j = 0; j < m; j++)
+                    {
+                        myReadFile >> line;
+                        value[i][j] = stoi(line);
+                    }
+                }
+
+                for (int i = 0; i < n; i++)
+                {
+                    for (int j = 0; j < m; j++)
+                    {
+                        myReadFile >> line;
+                        cost[i][j] = stoi(line);
+                    }
+                }
             }
         }
     }
 
     myReadFile.close();
+}
 
-    return 0;
-    }
-
-    int value_profit(int x, int y, std::vector<std::vector<int>> profit,
-                std::vector<std::vector<bool>> &diggedUp, std::vector<std::vector<bool>> diggedUpCopy)
-    {
+int value_profit(int x, int y, vector<vector<int>> &profit,
+                 vector<vector<bool>> &diggedUp, vector<vector<bool>> diggedUpCopy)
+{
     int total_profit = 0;
     int left = x;
     int right = x;
-    int y2 = y;
+
     do
     {
         for (int i = left; i < right + 1; i++)
         {
-            if (diggedUp[y][i] == false)
+            if (!diggedUp[y][i])
             {
                 total_profit += profit[y][i];
                 diggedUpCopy[y][i] = true;
