@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
     else if ("1" == algo)
     {
         start = clock();
-        profit = base(profits);
+        profit = dynamic(profits);
         end = clock();
     }
 
