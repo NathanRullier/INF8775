@@ -9,7 +9,7 @@ int main(int argc, char * argv[])
     
     vector<vector<int>> value;
     vector<vector<int>> cost;
-    readFile("../data/N500_M500", value, cost);
+    readFile("../data/N10_M10", value, cost);
 
     start = clock();
 
