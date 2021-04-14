@@ -3,5 +3,4 @@ DP*
 *.zip
 .vscode/
 .~lock.*
-*exec*
 *.o
