@@ -25,12 +25,12 @@ int main(int argc, char * argv[])
     int totalProfit = 0;
     int profitWithDig = 0;
 
-    while(profitWithDig < 0){
+    while(profitWithDig >= 0){
         profitWithDig = -1;
         for(int i = 0; i < value.size(); i++){
             for(int j = 0; j < value[0].size(); j++){
-                if(!diggedUp[i][j]){
-                    profitWithDig = value_profit(j, i, profit, diggedUp, diggedUp);
+                if(diggedUp[i][j] == false){
+                    profitWithDig = value_profit(j, i, profit,diggedUp, diggedUp);
                     if(profitWithDig > 0){
                         // cout << i << " " << j <<endl;
                         totalProfit += profitWithDig;
