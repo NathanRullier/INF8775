@@ -8,7 +8,6 @@ OBJ = main.o baseOps.o
 
 exec: $(OBJ)
 	@$(CC) $(CFLAGS) -o $@ $^ 
-	@rm *.o
 
     
 .PHONY: clean
