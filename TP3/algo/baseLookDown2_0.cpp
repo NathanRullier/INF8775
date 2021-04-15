@@ -103,7 +103,7 @@ int baseLookDown2_0(vector<vector<int>> &profit)
             }
         }
     }
-    
+
     // select some not good
     vector<pair<int, int>> notSelected;
     for (int i = 0; i < cells.size(); i++)
@@ -116,16 +116,11 @@ int baseLookDown2_0(vector<vector<int>> &profit)
             }
         }
     }
-    
-    float factor = 0.999;
-    for (int i = 0; i < notSelected.size() * factor; i++)
-    {
-        cells[notSelected[i].first][notSelected[i].second].digged = true;
-    }
 
-    for (int i = notSelected.size() * factor; i < notSelected.size(); i++)
+    for (int i = notSelected.size()-1; i >= 0; i--)
     {
-        for (int j = notSelected[i].first; j < cells.size(); j++)
+        int tot = 0;
+        for (int j = notSelected[i].first + 1; j < cells.size(); j++)
         {
             int tmp = j - notSelected[i].first;
             int from = notSelected[i].second - tmp;
@@ -136,17 +131,29 @@ int baseLookDown2_0(vector<vector<int>> &profit)
                 to = cells[0].size() - 2;
             for (int k = from; k <= to; k++)
             {
-                cells[j][k].digged = false;
+                tot += cells[j][k].profit;
             }
         }
-    }
-
-    // calculate profit
-    for (cell &c : cells[cells.size() - 1])
-    {
-        if (c.profit < 0)
+        if (tot >= -cells[notSelected[i].first][notSelected[i].second].profit)
         {
-            c.digged = false;
+            cells[notSelected[i].first][notSelected[i].second].digged = true;
+        }
+        else
+        {
+            for (int j = notSelected[i].first; j < cells.size(); j++)
+            {
+                int tmp = j - notSelected[i].first;
+                int from = notSelected[i].second - tmp;
+                int to = notSelected[i].second + tmp;
+                if (from < 1)
+                    from = 1;
+                if (to > cells[0].size() - 2)
+                    to = cells[0].size() - 2;
+                for (int k = from; k <= to; k++)
+                {
+                    cells[j][k].digged = false;
+                }
+            }
         }
     }
 
@@ -167,15 +174,6 @@ int baseLookDown2_0(vector<vector<int>> &profit)
     //     for (int j = 0; j < cells[0].size(); j++)
     //     {
     //         cout << cells[i][j].digged << "";
-    //     }
-    //     cout << endl;
-    // }
-    // cout << endl;
-    // for (int i = 0; i < cells.size(); i++)
-    // {
-    //     for (int j = 0; j < cells[0].size(); j++)
-    //     {
-    //         cout << cells[i][j].profit << "\t";
     //     }
     //     cout << endl;
     // }
