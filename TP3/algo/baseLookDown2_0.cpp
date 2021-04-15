@@ -1,6 +1,5 @@
 #include "allAlgo.h"
 #include <utility>
-#include <map>
 
 typedef struct
 {
@@ -8,23 +7,6 @@ typedef struct
     int profit;
     bool digged = false;
 } cell;
-
-bool checkParent(vector<pair<int, int>> &parent, vector<vector<cell>> &cells)
-{
-    for (pair<int, int> const &p : parent)
-    {
-        cell *c = &cells[p.first][p.second];
-        if (!c->digged)
-        {
-            return false;
-        }
-        if (c->parent.size() > 0 && !checkParent(c->parent, cells))
-        {
-            return false;
-        }
-    }
-    return true;
-}
 
 int baseLookDown2_0(vector<vector<int>> &profit)
 {
@@ -140,7 +122,7 @@ int baseLookDown2_0(vector<vector<int>> &profit)
         }
         else
         {
-            for (int j = notSelected[i].first; j < cells.size(); j++)
+            for (int j = notSelected[i].first+1; j < cells.size(); j++)
             {
                 int tmp = j - notSelected[i].first;
                 int from = notSelected[i].second - tmp;

@@ -7,9 +7,8 @@ int main(int argc, char *argv[])
     bool gotE = true;
     bool showTime = true;
     bool showProfit = true;
-    bool showMaxProfit = true;
 
-    string data = "../data/N200_M200"; // argv[1];
+    string data = "../data/N100_M100"; // argv[1];
     string algo = argv[1];
 
     // if(!strcmp(argv[1], ""))
@@ -74,6 +73,12 @@ int main(int argc, char *argv[])
         profit = baseLookDown2_0(profits);
         end = clock();
     }
+    else if ("4" == algo)
+    {
+        start = clock();
+        profit = topDown(profits);
+        end = clock();
+    }
 
     if (showTime)
     {
@@ -83,22 +88,6 @@ int main(int argc, char *argv[])
     if (showProfit)
     {
         cout << profit << endl;
-    }
-    if (showMaxProfit)
-    {
-        int totalProfit = sumAll2D(profits);
-
-        for (int i = profits.size() - 1; i >= 0; i--)
-        {
-            for (int const &p : profits[i])
-            {
-                if (p < 0)
-                {
-                    totalProfit -= p;
-                }
-            }
-        }
-        cout << totalProfit << endl;
     }
 
     return 0;
