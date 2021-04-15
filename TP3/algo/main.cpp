@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     bool showProfit = true;
     bool showMaxProfit = true;
 
-    string data = "../data/N500_M300"; // argv[1];
+    string data = "../data/N300_M300"; // argv[1];
     string algo = argv[1];
 
     // if(!strcmp(argv[1], ""))
@@ -66,6 +66,12 @@ int main(int argc, char *argv[])
     {
         start = clock();
         profit = totalProfits(profits);
+        end = clock();
+    }
+    else if ("3" == algo)
+    {
+        start = clock();
+        profit = baseLookDown2_0(profits);
         end = clock();
     }
 
