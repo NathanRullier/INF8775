@@ -62,6 +62,12 @@ int main(int argc, char *argv[])
         profit = baseLookDown(profits);
         end = clock();
     }
+    else if ("2" == algo)
+    {
+        start = clock();
+        profit = totalProfits(profits);
+        end = clock();
+    }
 
     if (showTime)
     {
