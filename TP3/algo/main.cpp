@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     bool showProfit = true;
     bool showMaxProfit = true;
 
-    string data = "../data/N500_M300"; // argv[1];
+    string data = "../data/N200_M200"; // argv[1];
     string algo = argv[1];
 
     // if(!strcmp(argv[1], ""))

@@ -71,7 +71,7 @@ int baseLookDown2_0(vector<vector<int>> &profit)
                 if (c2->profit < 0)
                     neg -= c2->profit;
 
-                if (c->profit >= neg) // (c0->profit + c1->profit + c2->profit + c->profit >= 0)
+                if (c->profit >= neg)
                 {
                     c0->digged = true;
                     c1->digged = true;
@@ -117,7 +117,7 @@ int baseLookDown2_0(vector<vector<int>> &profit)
         }
     }
 
-    for (int i = notSelected.size()-1; i >= 0; i--)
+    for (int i = notSelected.size() - 1; i >= 0; i--)
     {
         int tot = 0;
         for (int j = notSelected[i].first + 1; j < cells.size(); j++)
