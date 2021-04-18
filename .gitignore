@@ -4,3 +4,4 @@ DP*
 .vscode/
 .~lock.*
 *.o
+*tmp
