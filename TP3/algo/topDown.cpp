@@ -1,33 +1,29 @@
 #include "allAlgo.h"
 
-typedef struct
+int sumToTop(cell *c, vector<vector<cell>> &cells, int profit = 0)
 {
-    int profit;
-    bool digged = false;
-    int i = 0;
-    int j = 0;
-} cell_td;
-
-int sumToTop(cell_td *cell, vector<vector<cell_td>> &cells, int profit = 0)
-{
-    int sum = cell->profit + profit;
-    int i = cell->i;
-    int j = cell->j;
-    
-    if (!cells[i - 1][j - 1].digged)
+    int sum = c->profit + profit;
+    int i = c->x;
+    int j = c->y;
+    bool ok = true;
+    if (i > 0)
     {
-        sum = sumToTop(&cells[i - 1][j - 1], cells, sum);
-    }
-    if (!cells[i - 1][j].digged)
-    {
-        sum = sumToTop(&cells[i - 1][j], cells, sum);
-    }
-    if (!cells[i - 1][j + 1].digged)
-    {
-        sum = sumToTop(&cells[i - 1][j + 1], cells, sum);
+        if (!cells[i - 1][j - 1].digged)
+        {
+            sum = sumToTop(&cells[i - 1][j - 1], cells, sum);
+        }
+        if (!cells[i - 1][j].digged)
+        {
+            sum = sumToTop(&cells[i - 1][j], cells, sum);
+        }
+        if (!cells[i - 1][j + 1].digged)
+        {
+            sum = sumToTop(&cells[i - 1][j + 1], cells, sum);
+        }
+        ok = cells[i - 1][j - 1].digged & cells[i - 1][j].digged & cells[i - 1][j + 1].digged;
     }
 
-    cell->digged = sum >= 0;
+    c->digged = sum >= 0 && ok;
 
     return sum;
 }
@@ -36,14 +32,14 @@ int topDown(vector<vector<int>> &profit)
 {
 #pragma region init
 
-    vector<vector<cell_td>> cells(profit.size(), vector<cell_td>(profit[0].size(), cell_td()));
+    vector<vector<cell>> cells(profit.size(), vector<cell>(profit[0].size(), cell()));
     for (int i = 0; i < cells.size(); i++)
     {
         for (int j = 0; j < cells[0].size(); j++)
         {
             cells[i][j].profit = profit[i][j];
-            cells[i][j].i = i;
-            cells[i][j].j = j;
+            cells[i][j].x = i;
+            cells[i][j].y = j;
             if (j == 0 || j == cells[0].size() - 1)
             {
                 cells[i][j].digged = true;
@@ -55,12 +51,12 @@ int topDown(vector<vector<int>> &profit)
 
 #pragma region topDown
 
-    vector<cell_td *> notSelect;
+    vector<cell *> notSelect;
     for (int i = 0; i < cells.size(); i++)
     {
         for (int j = 1; j < cells[0].size() - 1; j++)
         {
-            cell_td *c = &cells[i][j];
+            cell *c = &cells[i][j];
 
             if (i == 0 || cells[i - 1][j - 1].digged & cells[i - 1][j].digged & cells[i - 1][j + 1].digged)
             {
@@ -77,8 +73,8 @@ int topDown(vector<vector<int>> &profit)
                         int to = j + (k - i);
                         if (from < 1)
                             from = 1;
-                        if (to > cells[0].size())
-                            to = cells[0].size();
+                        if (to > cells[0].size()-1)
+                            to = cells[0].size()-1;
                         for (int l = from; l <= to && tot > 0; l++)
                         {
                             tot -= cells[k][l].profit;
@@ -111,8 +107,9 @@ int topDown(vector<vector<int>> &profit)
         newTot = 0;
         for (int i = notSelect.size() - 1; i >= 0; i--)
         {
-            cell_td *c = notSelect[i];
-            newTot += sumToTop(c, cells);
+            cell *c = notSelect[i];
+            int curTot = sumToTop(c, cells);
+            newTot += curTot >= 0 ? curTot : 0;
         }
     }
 
@@ -135,15 +132,15 @@ int topDown(vector<vector<int>> &profit)
 #pragma endregion calculateProfit
 
 #pragma region showInfo
-    // for (int i = 0; i < cells.size(); i++)
-    // {
-    //     for (int j = 0; j < cells[0].size(); j++)
-    //     {
-    //         cout << cells[i][j].digged << "";
-    //     }
-    //     cout << endl;
-    // }
-    // cout << endl;
+    for (int i = 0; i < cells.size(); i++)
+    {
+        for (int j = 0; j < cells[0].size(); j++)
+        {
+            cout << cells[i][j].digged << "";
+        }
+        cout << endl;
+    }
+    cout << endl;
 
     // for (int i = 0; i < cells.size(); i++)
     // {

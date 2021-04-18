@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     bool showTime = true;
     bool showProfit = true;
 
-    string data = "../data/N100_M100"; // argv[1];
+    string data = "../data/" + (string)argv[2]; //N200_M300"; // argv[1];
     string algo = argv[1];
 
     // if(!strcmp(argv[1], ""))
@@ -32,18 +32,8 @@ int main(int argc, char *argv[])
     //     return 1;
     // }
 
-    vector<vector<int>> value;
-    vector<vector<int>> cost;
-    readFile(data, value, cost);
-
-    vector<vector<int>> profits(value.size(), vector<int>(value[0].size() + 2, 0));
-    for (int i = 0; i < value.size(); i++)
-    {
-        for (int j = 0; j < value[0].size(); j++)
-        {
-            profits[i][j+1] = value[i][j] - cost[i][j];
-        }
-    }
+    vector<vector<int>> profits;
+    readFile(data, profits);
 
     clock_t start;
     clock_t end;
@@ -70,7 +60,7 @@ int main(int argc, char *argv[])
     else if ("3" == algo)
     {
         start = clock();
-        profit = baseLookDown2_0(profits);
+        profit = topDownTop(profits);
         end = clock();
     }
     else if ("4" == algo)

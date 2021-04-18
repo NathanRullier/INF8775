@@ -1,6 +1,6 @@
-    #include "baseOps.h"
+#include "baseOps.h"
 
-void readFile(string const path, vector<vector<int>> &value, vector<vector<int>> &cost)
+void readFile(string const path, vector<vector<int>> &profit)
 {
     ifstream myReadFile;
     string line;
@@ -23,26 +23,25 @@ void readFile(string const path, vector<vector<int>> &value, vector<vector<int>>
                 myReadFile >> line;
                 m = stoi(line);
 
-                value.resize(n, vector<int>(m));
-                cost.resize(n, vector<int>(m));
+                profit.resize(n, vector<int>(m + 2));
             }
             else
             {
                 for (int i = 0; i < n; i++)
                 {
-                    for (int j = 0; j < m; j++)
+                    for (int j = 1; j < m + 1; j++)
                     {
                         myReadFile >> line;
-                        value[i][j] = stoi(line);
+                        profit[i][j] = stoi(line);
                     }
                 }
 
                 for (int i = 0; i < n; i++)
                 {
-                    for (int j = 0; j < m; j++)
+                    for (int j = 1; j < m + 1; j++)
                     {
                         myReadFile >> line;
-                        cost[i][j] = stoi(line);
+                        profit[i][j] -= stoi(line);
                     }
                 }
             }
@@ -103,10 +102,10 @@ int value_profit(int x, int y, vector<vector<int>> &profit,
     }
 
     return total_profit;
-    }
+}
 
-    std::vector<std::vector<int>> all_profit(std::vector<std::vector<int>> profit, std::vector<std::vector<bool>> &diggedUp)
-    {
+std::vector<std::vector<int>> all_profit(std::vector<std::vector<int>> profit, std::vector<std::vector<bool>> &diggedUp)
+{
 
     std::vector<std::vector<int>> total_profits(profit.size(), std::vector<int>(profit[0].size()));
     int max_profit = 0;
@@ -133,7 +132,7 @@ int value_profit(int x, int y, vector<vector<int>> &profit,
                         if (diggedUp[i][z] == false)
                         {
                             total_profits[i][j] += profit[i - 1][z];
-                        
+
                             if (total_profits[i][j] > max_profit)
                             {
                                 int max_profit = total_profits[i][j];
@@ -147,4 +146,4 @@ int value_profit(int x, int y, vector<vector<int>> &profit,
         }
     }
     return total_profits;
-    }
+}

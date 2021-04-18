@@ -4,7 +4,15 @@
 
 using namespace std;
 
-void readFile(string const path, vector<vector<int>> &value, vector<vector<int>> &cost);
+typedef struct
+{
+    int profit;
+    bool digged = false;
+    int x = 0;
+    int y = 0;
+} cell;
+
+void readFile(string const path, vector<vector<int>> &profit);
 
 int sumAll2D(vector<vector<int>> &profit);
 
