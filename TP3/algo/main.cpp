@@ -5,8 +5,8 @@
 int main(int argc, char *argv[])
 {
     bool gotE = true;
-    bool showTime = true;
-    bool showProfit = true;
+    bool showTime = false;
+    bool showProfit = false;
     bool showDigged = false;
 
     string data = "../data/" + (string)argv[1]; //N200_M300"; // argv[1];
@@ -62,15 +62,25 @@ int main(int argc, char *argv[])
 
     if (showDigged)
     {
-        for (int i = 0; i < profit_c.size(); i++)
+        // for (int i = 0; i < profit_c.size(); i++)
+        // {
+        //     for (int j = 0; j < profit_c[0].size(); j++)
+        //     {
+        //         cout << profit_c[i][j].digged << "";
+        //     }
+        //     cout << endl;
+        // }
+        // cout << endl;
+        for (int i = 1; i < profit_c.size(); i++)
         {
-            for (int j = 0; j < profit_c[0].size(); j++)
+            for (int j = 1; j < profit_c[0].size() - 1; j++)
             {
-                cout << profit_c[i][j].digged << "";
+                if (profit_c[i][j].digged)
+                {
+                    cout << i-1 << " " << j-1 << endl;
+                }
             }
-            cout << endl;
         }
-        cout << endl;
     }
     if (showTime)
     {
