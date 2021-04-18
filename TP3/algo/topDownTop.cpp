@@ -1,13 +1,5 @@
 #include "allAlgo.h"
 
-// struct cell_tdt
-// {
-//     int profit;
-//     bool digged = false;
-//     int x = 0;
-//     int y = 0;
-// };
-
 int topDownTop(vector<vector<int>> &profit)
 {
 #pragma region init
