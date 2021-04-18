@@ -28,7 +28,7 @@ int sumToTop(cell *c, vector<vector<cell>> &cells, int profit = 0)
     return sum;
 }
 
-int topDown(vector<vector<int>> &profit)
+vector<vector<cell>> topDown(vector<vector<int>> &profit)
 {
 #pragma region init
 
@@ -108,50 +108,11 @@ int topDown(vector<vector<int>> &profit)
         for (int i = notSelect.size() - 1; i >= 0; i--)
         {
             cell *c = notSelect[i];
-            int curTot = sumToTop(c, cells);
-            newTot += curTot >= 0 ? curTot : 0;
+            newTot += sumToTop(c, cells);
         }
     }
 
 #pragma endregion validateNotDigged
 
-#pragma region calculateProfit
-
-    int totalProfit = 0;
-    for (int i = 0; i < cells.size(); i++)
-    {
-        for (int j = 0; j < cells[0].size(); j++)
-        {
-            if (cells[i][j].digged)
-            {
-                totalProfit += cells[i][j].profit;
-            }
-        }
-    }
-
-#pragma endregion calculateProfit
-
-#pragma region showInfo
-    for (int i = 0; i < cells.size(); i++)
-    {
-        for (int j = 0; j < cells[0].size(); j++)
-        {
-            cout << cells[i][j].digged << "";
-        }
-        cout << endl;
-    }
-    cout << endl;
-
-    // for (int i = 0; i < cells.size(); i++)
-    // {
-    //     for (int j = 0; j < cells[0].size(); j++)
-    //     {
-    //         cout << cells[i][j].profit << " ";
-    //     }
-    //     cout << endl;
-    // }
-    // cout << endl;
-#pragma endregion showInfo
-
-    return totalProfit;
+    return cells;
 }

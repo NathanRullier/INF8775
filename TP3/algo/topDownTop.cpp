@@ -1,6 +1,6 @@
 #include "allAlgo.h"
 
-int topDownTop(vector<vector<int>> &profit)
+vector<vector<cell>> topDownTop(vector<vector<int>> &profit)
 {
 #pragma region init
     vector<vector<cell>> cells(profit.size() + 1, vector<cell>(profit[0].size(), cell()));
@@ -90,33 +90,7 @@ int topDownTop(vector<vector<int>> &profit)
 
 #pragma endregion topDownTop
 
-#pragma region calculateProfit
-
-    int totalProfit = 0;
-    for (int i = 1; i < cells.size(); i++)
-    {
-        for (int j = 0; j < cells[0].size(); j++)
-        {
-            if (cells[i][j].digged)
-            {
-                totalProfit += cells[i][j].profit;
-            }
-        }
-    }
-
-#pragma endregion calculateProfit
-
 #pragma region showInfo
-    // for (int i = 0; i < cells.size(); i++)
-    // {
-    //     for (int j = 0; j < cells[0].size(); j++)
-    //     {
-    //         cout << cells[i][j].digged << "";
-    //     }
-    //     cout << endl;
-    // }
-    // cout << endl;
-
     // for (int i = 0; i < cells.size(); i++)
     // {
     //     for (int j = 0; j < cells[0].size(); j++)
@@ -125,8 +99,8 @@ int topDownTop(vector<vector<int>> &profit)
     //     }
     //     cout << endl;
     // }
-cout << endl;
+    // cout << endl;
 #pragma endregion showInfo
 
-    return totalProfit;
+    return cells;
 }
