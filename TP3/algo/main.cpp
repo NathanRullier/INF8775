@@ -8,9 +8,14 @@ int main(int argc, char *argv[])
     bool showTime = false;
     bool showProfit = false;
     bool showDigged = false;
+    bool showPoints = false;
 
-    string data = "../data/" + (string)argv[1]; //N200_M300"; // argv[1];
-    string algo = argv[2];
+    string data = "../data/" + (string)argv[1];
+
+    if (!strcmp(argv[2], "1"))
+    {
+        showPoints = true;
+    }
 
     if (!strcmp(argv[3], "1"))
     {
@@ -35,49 +40,31 @@ int main(int argc, char *argv[])
     int profit = 0;
     vector<vector<cell>> profit_c;
 
-    if ("0" == algo)
-    {
-        start = clock();
-        profit = base(profits);
-        end = clock();
-    }
-    else if ("1" == algo)
-    {
-        start = clock();
-        profit = totalProfits(profits);
-        end = clock();
-    }
-    else if ("2" == algo)
-    {
-        start = clock();
-        profit_c = topDownTop(profits);
-        end = clock();
-    }
-    else if ("3" == algo)
-    {
-        start = clock();
-        profit_c = topDown(profits);
-        end = clock();
-    }
+    start = clock();
+    profit_c = topDownTop(profits);
+    end = clock();
 
     if (showDigged)
     {
-        // for (int i = 0; i < profit_c.size(); i++)
-        // {
-        //     for (int j = 0; j < profit_c[0].size(); j++)
-        //     {
-        //         cout << profit_c[i][j].digged << "";
-        //     }
-        //     cout << endl;
-        // }
-        // cout << endl;
+        for (int i = 0; i < profit_c.size(); i++)
+        {
+            for (int j = 0; j < profit_c[0].size(); j++)
+            {
+                cout << profit_c[i][j].digged << "";
+            }
+            cout << endl;
+        }
+        cout << endl;
+    }
+    if (showPoints)
+    {
         for (int i = 1; i < profit_c.size(); i++)
         {
             for (int j = 1; j < profit_c[0].size() - 1; j++)
             {
                 if (profit_c[i][j].digged)
                 {
-                    cout << i-1 << " " << j-1 << endl;
+                    cout << i - 1 << " " << j - 1 << endl;
                 }
             }
         }

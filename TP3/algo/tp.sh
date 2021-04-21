@@ -26,13 +26,13 @@ DIG=0
 ALG=0
 INST=""
 
-while getopts "e:a:ptd" o; do
+while getopts "e:aptd" o; do
     case $o in
         e)
             INST=$OPTARG
             ;;
         a)
-            ALG=$OPTARG
+            ALG=1
             ;;
         p)
             PRINT=1

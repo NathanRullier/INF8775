@@ -3,7 +3,8 @@
 vector<vector<cell>> topDownTop(vector<vector<int>> &profit)
 {
 #pragma region init
-    vector<vector<cell>> cells(profit.size() + 1, vector<cell>(profit[0].size(), cell()));
+
+    vector<vector<cell>> cells(profit.size() + 1, vector<cell>(profit[0].size() + 2, cell()));
     for (int i = 0; i < cells.size(); i++)
     {
         for (int j = 0; j < cells[0].size(); j++)
