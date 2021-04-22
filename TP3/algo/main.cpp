@@ -35,14 +35,9 @@ int main(int argc, char *argv[])
     vector<vector<int>> profits;
     readFile(data, profits);
 
-    clock_t start;
-    clock_t end;
-    int profit = 0;
-    vector<vector<cell>> profit_c;
-
-    start = clock();
-    profit_c = topDownTop(profits);
-    end = clock();
+    clock_t start = clock();
+    vector<vector<cell>> profit_c = topDownTop(profits);
+    clock_t end = clock();
 
     if (showDigged)
     {
@@ -76,13 +71,11 @@ int main(int argc, char *argv[])
     }
     if (showProfit)
     {
-        if (profit_c.size() > 0)
-        {
-            profit = 0;
-        }
+
+        int profit = 0;
         for (int i = 1; i < profit_c.size(); i++)
         {
-            for (int j = 0; j < profit_c[0].size(); j++)
+            for (int j = 1; j < profit_c[0].size() - 1; j++)
             {
                 if (profit_c[i][j].digged)
                 {

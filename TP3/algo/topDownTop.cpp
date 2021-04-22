@@ -30,26 +30,26 @@ vector<vector<cell>> topDownTop(vector<vector<int>> &profit)
             if (c->profit >= 0 && !c->digged)
             {
                 int tot = c->profit;
-                bool isNotAllDigged = true;
                 int positive = 0;
-                for (int k = i - 1; k >= 0 && tot >= 0 && isNotAllDigged; k--)
+
+                int from = j - 1;
+                int to = j + 1;
+                int newFrom = 0;
+                int newTo = -1;
+                for (int k = i - 1; k >= 0 && tot >= 0 && newFrom != -1; k--)
                 {
-                    isNotAllDigged = false;
+                    newFrom = -1;
                     tot += positive;
                     positive = 0;
-
-                    int from = j - (i - k);
-                    int to = j + (i - k);
-                    if (from < 1)
-                        from = 1;
-                    if (to > cells[0].size() - 1)
-                        to = cells[0].size() - 1;
-
                     for (int l = from; l <= to && tot >= 0; l++)
                     {
-                        isNotAllDigged |= !cells[k][l].digged;
                         if (!cells[k][l].digged)
                         {
+                            if (newFrom == -1)
+                            {
+                                newFrom = l - 1;
+                            }
+                            newTo = l + 1;
                             if (cells[k][l].profit >= 0)
                             {
                                 positive += cells[k][l].profit;
@@ -60,29 +60,33 @@ vector<vector<cell>> topDownTop(vector<vector<int>> &profit)
                             }
                         }
                     }
+                    from = newFrom;
+                    to = newTo;
                 }
                 if (tot >= 0)
                 {
-                    isNotAllDigged = true;
-                    for (int k = i; k >= 0 && isNotAllDigged; k--)
+                    from = j;
+                    to = j;
+                    newFrom = 0;
+                    newTo = -1;
+                    for (int k = i; k >= 0 && newFrom != -1; k--)
                     {
-                        isNotAllDigged = false;
-
-                        int from = j - (i - k);
-                        int to = j + (i - k);
-                        if (from < 1)
-                            from = 1;
-                        if (to > cells[0].size() - 1)
-                            to = cells[0].size() - 1;
+                        newFrom = -1;
 
                         for (int l = from; l <= to; l++)
                         {
-                            isNotAllDigged |= !cells[k][l].digged;
                             if (!cells[k][l].digged)
                             {
+                                if (newFrom == -1)
+                                {
+                                    newFrom = l - 1;
+                                }
+                                newTo = l + 1;
                                 cells[k][l].digged = true;
                             }
                         }
+                        from = newFrom;
+                        to = newTo;
                     }
                 }
             }
