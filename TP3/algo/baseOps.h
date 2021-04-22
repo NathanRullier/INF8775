@@ -6,7 +6,7 @@ using namespace std;
 
 typedef struct
 {
-    int profit;
+    int profit = 0;
     bool digged = false;
 } cell;
 

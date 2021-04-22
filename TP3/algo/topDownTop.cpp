@@ -11,9 +11,9 @@ vector<vector<cell>> topDownTop(vector<vector<int>> &profit)
         {
             bool isDigged = (i == 0 || j == 0 || j == cells[0].size() - 1);
             cells[i][j].digged = isDigged;
-            if (i > 0)
+            if (i > 0 && j > 0 && j < cells[0].size() - 1)
             {
-                cells[i][j].profit = profit[i - 1][j];
+                cells[i][j].profit = profit[i - 1][j - 1];
             }
         }
     }
