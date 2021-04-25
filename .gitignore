@@ -5,6 +5,6 @@ DP*
 .~lock.*
 *.o
 *tmp
-*TP2/data/dp*
-*TP2/data/normal*
+*TP2/data/*
+*TP2/data/*
 *TP1/data/N*
