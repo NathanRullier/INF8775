@@ -1,7 +1,9 @@
-N*
+
 DP*
 *.zip
 .vscode/
 .~lock.*
 *.o
 *tmp
+*TP2/data/N*
+*TP1/data/N*
