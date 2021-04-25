@@ -1,27 +1,10 @@
 #include "allAlgo.h"
 
-vector<vector<cell>> topDownTop(vector<vector<int>> &profit)
+bool topDownTop(vector<vector<cell>> &cells)
 {
-#pragma region init
+    bool newDigged = false;
 
-    vector<vector<cell>> cells(profit.size() + 1, vector<cell>(profit[0].size() + 2, cell()));
-    for (int i = 0; i < cells.size(); i++)
-    {
-        for (int j = 0; j < cells[0].size(); j++)
-        {
-            bool isDigged = (i == 0 || j == 0 || j == cells[0].size() - 1);
-            cells[i][j].digged = isDigged;
-            if (i > 0 && j > 0 && j < cells[0].size() - 1)
-            {
-                cells[i][j].profit = profit[i - 1][j - 1];
-            }
-        }
-    }
-
-#pragma endregion init
-
-#pragma region topDownTop
-
+    vector<cell *> toDig{cells.size() * cells[0].size()};
     for (int i = 1; i < cells.size(); i++)
     {
         for (int j = 1; j < cells[0].size() - 1; j++)
@@ -29,6 +12,8 @@ vector<vector<cell>> topDownTop(vector<vector<int>> &profit)
             cell *c = &cells[i][j];
             if (c->profit >= 0 && !c->digged)
             {
+                toDig[0] = c;
+                int position = 0;
                 int tot = c->profit;
                 int positive = 0;
 
@@ -45,6 +30,7 @@ vector<vector<cell>> topDownTop(vector<vector<int>> &profit)
                     {
                         if (!cells[k][l].digged)
                         {
+                            toDig[++position] = &cells[k][l];
                             if (newFrom == -1)
                             {
                                 newFrom = l - 1;
@@ -65,47 +51,16 @@ vector<vector<cell>> topDownTop(vector<vector<int>> &profit)
                 }
                 if (tot >= 0)
                 {
-                    from = j;
-                    to = j;
-                    newFrom = 0;
-                    newTo = -1;
-                    for (int k = i; k >= 0 && newFrom != -1; k--)
+                    for (int k = position; k >= 0; k--)
                     {
-                        newFrom = -1;
-
-                        for (int l = from; l <= to; l++)
-                        {
-                            if (!cells[k][l].digged)
-                            {
-                                if (newFrom == -1)
-                                {
-                                    newFrom = l - 1;
-                                }
-                                newTo = l + 1;
-                                cells[k][l].digged = true;
-                            }
-                        }
-                        from = newFrom;
-                        to = newTo;
+                        newDigged = true;
+                        toDig[k]->digged = true;
+                        cout << toDig[k]->x << " " << toDig[k]->y << endl;
                     }
                 }
             }
         }
     }
 
-#pragma endregion topDownTop
-
-#pragma region showInfo
-    // for (int i = 0; i < cells.size(); i++)
-    // {
-    //     for (int j = 0; j < cells[0].size(); j++)
-    //     {
-    //         cout << cells[i][j].profit << " ";
-    //     }
-    //     cout << endl;
-    // }
-    // cout << endl;
-#pragma endregion showInfo
-
-    return cells;
+    return newDigged;
 }

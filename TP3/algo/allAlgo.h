@@ -1,4 +1,5 @@
 #include "baseOps.h"
 #include <limits>
 
-vector<vector<cell>> topDownTop(vector<vector<int>> &profit);
+bool topDownTop(vector<vector<cell>> &cells);
+bool topDown(vector<vector<cell>> &cells);
