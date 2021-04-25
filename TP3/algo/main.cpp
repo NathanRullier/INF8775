@@ -1,5 +1,4 @@
 #include "allAlgo.h"
-#include <time.h>
 #include <cstring>
 
 vector<vector<cell>> initCells(vector<vector<int>> profit)
@@ -29,7 +28,6 @@ int main(int argc, char *argv[])
     vector<vector<int>> profits;
     readFile(data, profits);
 
-    clock_t start = clock();
     vector<vector<cell>> profit_c = initCells(profits);
     bool newDigged = true;
     while (newDigged)
@@ -40,7 +38,6 @@ int main(int argc, char *argv[])
             newDigged = topDown(profit_c);
         }
     }
-    clock_t end = clock();
 
     return 0;
 }
