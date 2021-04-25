@@ -20,33 +20,17 @@
 #
 #     Rappel : les paramètres de ligne de commande sont passés comme des strings.
 
-PRINT=0
-TIME=0
-DIG=0
-ALG=0
 INST=""
 
-while getopts "e:aptd" o; do
+while getopts "e:" o; do
     case $o in
         e)
             INST=$OPTARG
             ;;
-        a)
-            ALG=1
-            ;;
-        p)
-            PRINT=1
-            ;;
-        t)
-            TIME=1
-            ;;
-        d)
-            DIG=1
-            ;;
     esac
 done
 
-./exec $INST $ALG $TIME $PRINT $DIG
+./exec $INST
 #python3 main.py $INST $ALG $TIME $PRINT
 #java main.java $INST $ALG $TIME $PRINT
 #...
